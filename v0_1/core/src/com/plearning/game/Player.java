@@ -10,9 +10,9 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 
 public class Player extends Entity {
-	public static final float WIDTH = 30; // Ancho
-	public static final float HEIGHT = 30; // Alto
-	public static final float VELOCITY = 120f; // Velocidad del jugador
+	public static final float WIDTH = 20; // Ancho
+	public static final float HEIGHT = 20; // Alto
+	public static final float VELOCITY = 50f; // Velocidad del jugador
 	
 	private Texture frame1, frame2, frame3, frame4, frame5, frame6, frame7, frame8, frame9, frame10, frame11; // Texturas del jugador
 	private Animation animation; // Permite animar los sprites en el juego y que parezca que el jugador anda.

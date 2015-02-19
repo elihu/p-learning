@@ -1,63 +1,100 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" width="15" height="25" tilewidth="32" tileheight="32">
- <tileset firstgid="1" name="Patrones" tilewidth="32" tileheight="32">
-  <image source="tiles_spritesheet.png" width="406" height="416"/>
+<map version="1.0" orientation="orthogonal" width="15" height="23" tilewidth="21" tileheight="21">
+ <tileset firstgid="1" name="spritesheet" tilewidth="21" tileheight="21" spacing="2" margin="2">
+  <image source="spritesheet.png" trans="5e81a2" width="692" height="692"/>
  </tileset>
- <tileset firstgid="157" name="background" tilewidth="32" tileheight="32">
-  <image source="background.png" width="1750" height="700"/>
+ <tileset firstgid="901" name="backgrounds" tilewidth="21" tileheight="21">
+  <image source="backgrounds.png" width="231" height="189"/>
  </tileset>
- <layer name="Background" width="15" height="25">
+ <tileset firstgid="1000" name="spritesheet2" tilewidth="21" tileheight="21" spacing="2" margin="2">
+  <image source="spritesheet2.png" width="692" height="692"/>
+ </tileset>
+ <layer name="Background" width="15" height="23">
   <data encoding="base64" compression="zlib">
-   eJzFz1WXkAUUhtGPoVOkGwRBOiWlUUIpAZHuFJTuTtHFQhqUGGqoAQGVDqW7GbqG7pYG3Sz4D1zs9V6e80wLgmA6ocxgJrOYzRzCmMs85rOAhYRzmCNEcJRjHOcEJznFac5wlnOcJ5LYUYIgDnGJR3wS8AEJ+ZBEJCYJSUlGckpRmjKUpRyf8wXlqUBFKvElX1GZKnSjOz3oSS9604e+9KM/AxjIIAYzhHAWsZjfWcJSlvEHf/IXy1nBSlaxmkgucJFLXOYKV7nGdW5wk1vc5g533zSHBEEKUpKK1KQhLelITwY+IiOZ+JjMVKEq1ajO19SgJrX4htp8Sx3qUo/6DGEowxjOj4zgJ34Oeds68t2Osr8wmjGsZg1rWcd6NvA3/7CRTWxmC1vZxnbuco/7POAhj/iXxzzhKc94zgte8upNc9QgyMInZCUb2clBTnKRmzzkJR/5KUB9GtCQRjSmCU1pRnNa0JJWtKYNbRnDWMYxnglMZBKT+ZXfmMJUpjGdULazg53sYjd72Ms+9nOAgxziMEeI4BWv+Y8gWhBEIYSoRCM6MYhJLGITh7gU4FMKUojCFKEoxfiM4pSgJKUoTRna8h3taM/3/EAHOtKJznShK93oTg9CmcFMZjGbOYQxl3nMZwELCWcRi4ngKMc4zglOcorTnOEs5zhPJBe4+B5/fl93/wc7J8jR
+   eJzF0OcKwzAMRtFAn91O997pHu/ZW4hBGMluGkp/HBw7+mRh1ykKj1LwCbLO1WdO8GJN9YhrtVX2LKOsdp9T+mvflrhGu9ea/302MnpZs6Xuteb3LbK5N2mTjWeU+y566GOAYf1WY0yU2ilmmGOBJVZYY4MtdtgrtRUOOOKEMy644oY7HngqtU2yQTj7JhtY2U96/iqby6f+/yPbdOZKkctatbnsC5zDyW4=
   </data>
  </layer>
- <layer name="Terrain" width="15" height="25">
+ <layer name="Map" width="15" height="23">
   <data encoding="base64" compression="zlib">
-   eJybycDAwMRAOpgJxeQAmF5dNMxAQIya9mKzC58baOFffHbCMDXshZmPbg8uPrpeSu0lxt8wNrXDGZsb0MXQ3UyuvdjsIoRpaS82cZjYcAtnBhzsgbQXOZw5SbSTCUnvDCDmIgGLQvUBAMGzMo4=
+   eJxjYBj6oBaIa4jA2MBMIszHpWYm1G5kzIDGxqeXUnuR7UK3n5b2DpR/cdlLS/+i28PAQB//otuL7gZa2UsoD80mwvxRgAoAZhMrDA==
   </data>
  </layer>
- <objectgroup name="Physics" width="15" height="25">
-  <object x="32" y="768" width="416"/>
-  <object x="32" y="64"/>
-  <object x="32" y="64" width="125" height="20"/>
-  <object x="192" y="64" width="124" height="18"/>
-  <object x="352" y="64" width="60" height="17"/>
-  <object x="32" y="128" width="30" height="16"/>
-  <object x="96" y="128" width="158" height="18"/>
-  <object x="288" y="128" width="127" height="18"/>
-  <object x="32" y="192" width="191" height="17"/>
-  <object x="259" y="192" width="188" height="17"/>
-  <object x="64" y="256" width="28" height="16"/>
-  <object x="128" y="256" width="95" height="16"/>
-  <object x="256" y="256" width="92" height="17"/>
-  <object x="384" y="256" width="29" height="18"/>
-  <object x="64" y="320" width="222" height="15"/>
-  <object x="320" y="320" width="62" height="15"/>
-  <object x="416" y="320" width="32" height="15"/>
-  <object x="32" y="384" width="95" height="16"/>
-  <object x="160" y="384" width="126" height="18"/>
-  <object x="320" y="384" width="92" height="15"/>
-  <object x="64" y="448" width="380" height="17"/>
-  <object x="64" y="512" width="157" height="15"/>
-  <object x="256" y="512" width="124" height="16"/>
-  <object x="416" y="512" width="28" height="16"/>
-  <object x="32" y="576" width="94" height="15"/>
-  <object x="160" y="576" width="125" height="16"/>
-  <object x="320" y="576" width="93" height="14"/>
-  <object x="64" y="640" width="125" height="17"/>
-  <object x="224" y="640" width="64" height="16"/>
-  <object x="320" y="640" width="96" height="16"/>
-  <object x="64" y="704" width="128" height="16"/>
-  <object x="224" y="704" width="64" height="14"/>
-  <object x="320" y="704" width="125" height="16"/>
-  <object x="32" y="768" width="416" height="32"/>
+ <layer name="Control" width="15" height="23">
+  <data encoding="base64" compression="zlib">
+   eJxjYMAENURgXGAmiXxy9BLrFmLsGNU7qnck64Xh2RSYQw4gpozBlc9B7m1gIR7PpKJeUjEIAAA/yy/b
+  </data>
+ </layer>
+ <layer name="Entities" width="15" height="23">
+  <data encoding="base64" compression="zlib">
+   eJxjYKAc7GKFYFxgCgumWDYbKl8MSc0kIHsilA+iQfzJWMygFphAotnyePxKS3CJhmGADxgPkL35A2SvA/vA2OtIB3tJTeuEQCdSPv7JjJqPYQCU1zvZMMVHCgAAP9wLjw==
+  </data>
+ </layer>
+ <objectgroup name="Physics" width="15" height="23">
+  <object x="107" y="109" width="77" height="13"/>
+  <object x="215" y="109" width="31" height="13"/>
+  <object x="108" y="153" width="19" height="12"/>
+  <object x="151" y="151" width="75" height="13"/>
+  <object x="256" y="152" width="13" height="13"/>
+  <object x="111" y="194" width="72" height="14"/>
+  <object x="215" y="193" width="33" height="15"/>
+  <object x="110" y="233" width="75" height="16"/>
+  <object x="214" y="234" width="54" height="15"/>
+  <object x="129" y="275" width="54" height="17"/>
+  <object x="213" y="275" width="35" height="15"/>
+  <object x="129" y="319" width="119" height="15"/>
  </objectgroup>
- <objectgroup name="Limits" width="15" height="25">
-  <object x="448" y="0" width="32" height="768"/>
-  <object x="0" y="0" width="32" height="768"/>
+ <objectgroup name="Limits" width="15" height="23">
+  <object x="84" y="63" width="21" height="315"/>
+  <object x="273" y="63" width="21" height="315"/>
+  <object x="105" y="357" width="168" height="21"/>
+  <object x="105" y="63" width="168" height="21"/>
  </objectgroup>
- <objectgroup name="Objects" width="15" height="25">
-  <object name="PlayerStart" x="32" y="0" width="32" height="32"/>
-  <object name="PlayerGoal" x="416" y="736" width="32" height="32"/>
+ <objectgroup name="Objects" width="15" height="23">
+  <object name="PlayerStart" x="105" y="84" width="21" height="21"/>
+  <object name="PlayerGoal" x="252" y="336" width="21" height="21"/>
+  <object name="In6" x="126" y="21" width="21" height="21"/>
+  <object name="In5" x="147" y="21" width="21" height="21"/>
+  <object name="In4" x="168" y="21" width="21" height="21"/>
+  <object name="In3" x="126" y="42" width="21" height="21"/>
+  <object name="In2" x="147" y="42" width="21" height="21"/>
+  <object name="In1" x="168" y="42" width="21" height="21"/>
+  <object name="Out6" x="210" y="21" width="21" height="21"/>
+  <object name="Out5" x="231" y="21" width="21" height="21"/>
+  <object name="Out4" x="252" y="21" width="21" height="21"/>
+  <object name="Out3" x="210" y="42" width="21" height="21"/>
+  <object name="Out2" x="231" y="42" width="21" height="21"/>
+  <object name="Out1" x="252" y="42" width="21" height="21"/>
+  <object name="Control1" x="42" y="105" width="21" height="21"/>
+  <object name="Control2" x="42" y="147" width="21" height="21"/>
+  <object name="Control3" x="42" y="189" width="21" height="21"/>
+  <object name="Control4" x="42" y="231" width="21" height="21"/>
+  <object name="Control5" x="42" y="273" width="21" height="21"/>
+  <object name="Control6" x="42" y="315" width="21" height="21"/>
+  <object name="Timer" x="21" y="0" width="63" height="42"/>
+  <object name="Options" x="42" y="420" width="42" height="42"/>
+  <object name="Restart" x="105" y="420" width="42" height="42"/>
+  <object name="Pause" x="168" y="420" width="42" height="42"/>
+  <object name="Play" x="231" y="420" width="42" height="42"/>
+ </objectgroup>
+ <objectgroup name="Slots" width="15" height="23">
+  <object x="126" y="84" width="147" height="21"/>
+  <object x="189" y="105" width="21" height="21"/>
+  <object x="252" y="105" width="21" height="42"/>
+  <object x="105" y="126" width="147" height="21"/>
+  <object x="126" y="147" width="21" height="21"/>
+  <object x="231" y="147" width="21" height="21"/>
+  <object x="105" y="168" width="168" height="21"/>
+  <object x="252" y="189" width="21" height="42"/>
+  <object x="189" y="189" width="21" height="21"/>
+  <object x="105" y="210" width="147" height="21"/>
+  <object x="189" y="231" width="21" height="84"/>
+  <object x="105" y="252" width="84" height="21"/>
+  <object x="210" y="252" width="63" height="21"/>
+  <object x="210" y="294" width="63" height="21"/>
+  <object x="252" y="273" width="21" height="21"/>
+  <object x="252" y="315" width="21" height="21"/>
+  <object x="105" y="336" width="147" height="21"/>
+  <object x="105" y="273" width="21" height="63"/>
+  <object x="126" y="294" width="63" height="21"/>
  </objectgroup>
 </map>

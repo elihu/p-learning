@@ -7,8 +7,8 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class Main extends Game {
-	private static final int WIDTH = 480;
-	private static final int HEIGHT = 800;
+	private static final int WIDTH = 315;
+	private static final int HEIGHT = 483;
 	
 	public AbstractScreen gameScreen;
 	public SpriteBatch batch;
