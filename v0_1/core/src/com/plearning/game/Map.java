@@ -3,6 +3,7 @@ package com.plearning.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
@@ -23,7 +24,11 @@ public class Map {
 	private Player player; // El jugador del juego
 	private Sound dieSound; // Sonido cuando se muere 
 	private Array<Rectangle> platforms; // Un array que contiene todas las plataformas del juego
+	private Array<Rectangle> slots; // Un array que contiene todas las posiciones válidas para los controles
+	private Array<Rectangle> controls; // Un array que contiene todos los controles
+	private Array<Option> options; // Un array que contiene todas las opciones
 	private Rectangle start, goal; // La casilla de salida y la casilla de meta.
+
 	
 	public Map(Main main, SpriteBatch batch) {
 		this.main = main;
@@ -44,12 +49,17 @@ public class Map {
 		
 		batch.begin();
 		player.draw(batch);
+		for(Option o : options){
+			o.draw(batch);
+		}
 		batch.end();
 	}
 	
 	private void update() { // Actualiza los valores de los personajes del juego
 		player.update(platforms); // Acualizamos los valores de player y comprobamos las colisiones con las plataformas
-		
+		for(Option o : options){
+			o.update();
+		}
 		if(player.getBody().overlaps(goal)) { // Si llega a la salida.
 			main.win = true;
 			reset();
@@ -65,6 +75,9 @@ public class Map {
 		map.dispose();
 		renderer.dispose();
 		player.dispose();
+		for(Option o : options){
+			o.dispose();
+		}
 	}
 	
 	public TiledMap getMap() { // Devuelve el mapa
@@ -77,6 +90,7 @@ public class Map {
 
 	private void processMapMetadata() { // Este metodo inicializa los elementos del mapa.
 		platforms = new Array<Rectangle>(); // Inicializamos los arrays
+		options = new Array<Option>(); 
 
 		MapObjects objects = map.getLayers().get("Objects").getObjects(); // Cogemos del mapa los objetos llamados "Objects"
 
@@ -89,7 +103,25 @@ public class Map {
 				start = rectangle;
 			if(name.equals("PlayerGoal")) // Si se llama "PlayerGoal"
 				goal = rectangle;
+			if(name.equals("Options")){ // Si se llama "Options"
+				options.insert(0, new Option(0));
+				options.get(0).setPosition(rectangle.x, rectangle.y);
+			}
+			if(name.equals("Restart")){ // Si se llama "Restart"
+				options.insert(1, new Option(1));
+				options.get(1).setPosition(rectangle.x, rectangle.y);
+			}
+			if(name.equals("Pause")){ // Si se llama "Pause"
+				options.insert(2, new Option(2));
+				options.get(2).setPosition(rectangle.x, rectangle.y);
+			}
+			if(name.equals("Play")){ // Si se llama "Play"
+				options.insert(3, new Option(3));
+				options.get(3).setPosition(rectangle.x, rectangle.y);
+			}
+			
 		}
+		
 		
 		objects = map.getLayers().get("Physics").getObjects(); // Cogemos del mapa los objetos llamados "Physics"
 		
@@ -110,5 +142,6 @@ public class Map {
 		
 		player = new Player(); // Creamos al jugador
 		player.setPosition(start.x, start.y); // Lo ponemos en la casilla salida.
+		
 	}
 }
