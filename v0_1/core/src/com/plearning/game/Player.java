@@ -1,7 +1,6 @@
 package com.plearning.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
@@ -11,25 +10,21 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 
 public class Player extends Entity {
-	public static final float WIDTH = 72; // Ancho
-	public static final float HEIGHT = 97; // Alto
-	public static final float VELOCITY = 350f; // Velocidad del jugador
-	public static final float JUMP = 500f; // CUanto salta el jugador
-	public static final int MAX_JUMP_RANGUE = 30; // Rango de salto maximo
+	public static final float WIDTH = 30; // Ancho
+	public static final float HEIGHT = 30; // Alto
+	public static final float VELOCITY = 120f; // Velocidad del jugador
 	
 	private Texture frame1, frame2, frame3, frame4, frame5, frame6, frame7, frame8, frame9, frame10, frame11; // Texturas del jugador
 	private Animation animation; // Permite animar los sprites en el juego y que parezca que el jugador anda.
 	private float stateTime; // Permite devolver el frame indicado
-	private boolean jump, inFloor; // Indica si esta saltando o en el suelo respectivamente
-	private int jumpRange; // El valor del rango de salto
+	private boolean inFloor; // Indica si esta saltando o en el suelo respectivamente
+	private int direction;
 	
 	public Player() {
 		super(WIDTH, HEIGHT, new Rectangle());
 		
 		stateTime = 0;
-		jump = false;
-		inFloor = true; // Inicializamos con la informacion basica
-		jumpRange = 0;
+		inFloor = false; // Inicializamos con la informacion basica
 		setPosition(0, 0);
 			
 		frame1 = new Texture("Player/p1_walk01.png");
@@ -58,55 +53,35 @@ public class Player extends Entity {
 	}
 	
 	public void update(Array<Rectangle> platforms) { // Metodo donde se actualiza los valores del jugador y se comprueban las colisiones
-		boolean right, left, down, up;
-		right = left = down = up = true; // Permite comprobar si hay una colision o no
+		boolean down;
+		down = false; // Permite comprobar si hay una colision o no
 		
 		for(Rectangle rectangle : platforms) {
 			if(downCollision(rectangle)) { // Si colisiona por abajo
 				inFloor = true;
-				jumpRange = 0;
-				down = false;
+				down = true;
 			}
 			
-			if(rightCollision(rectangle)) // Si colisiona por la derecha
-				right = false;
-			
-			if(leftCollision(rectangle)) // Si colisiona por la izquierda
-				left = false;
-			
-			if(upCollision(rectangle)) // Si colisiona por arriba
-				up = false;
-		}
-		
-		if((Gdx.input.isKeyPressed(Keys.D) || Gdx.input.isKeyPressed(Keys.RIGHT)) && right) { // Si presionamos las teclas correspondiente y no colisionamos por la derecha vamos a la derecha
-			translate(VELOCITY * Gdx.graphics.getDeltaTime(), 0);
-			stateTime += Gdx.graphics.getDeltaTime(); // Aumentamos statetime para cambiar de textura del personaje.
-		}
-		if((Gdx.input.isKeyPressed(Keys.A) || Gdx.input.isKeyPressed(Keys.LEFT)) && left) { // Si presionamos las teclas correspondiente y no colisionamos por la izquierda, vamos a la izquierda
-			translate(-VELOCITY * Gdx.graphics.getDeltaTime(), 0);
-			stateTime += Gdx.graphics.getDeltaTime(); // Aumentamos statetime para cambiar de textura del personaje.
-		}
-		if((Gdx.input.isKeyPressed(Keys.SPACE) || Gdx.input.isKeyPressed(Keys.W) || Gdx.input.isKeyPressed(Keys.UP)) && inFloor) { // Si presionamos la tecla correspondiente y no colisionamos arriba, salta el jugador
-				jump = true;
-				inFloor = false;
-		}
-		
-		if(jump) { // Si esta saltando
-			if(up) { // Si no colisiona
-				translate(0, JUMP * Gdx.graphics.getDeltaTime());
-				++jumpRange;
+			if(rightCollision(rectangle)){ // Si colisiona por la derecha
+				direction = -1;
 			}
-			else // Si colisiona
-				jumpRange = MAX_JUMP_RANGUE;
+			
+			if(leftCollision(rectangle)){ // Si colisiona por la izquierda
+				direction = 1;
+			}
+			
 		}
-		else if(down){ // Si no colisiona para abajo
+		
+		if(!down){ // Si no colisiona para abajo
+			inFloor = false;
 			translate(0, -VELOCITY * Gdx.graphics.getDeltaTime());
 		}
-	
-		if(jumpRange >= MAX_JUMP_RANGUE) { // Si llegamos al maximo rango dejamos de saltar.
-			jump = false;
+		if(inFloor){
+			translate(direction * VELOCITY * Gdx.graphics.getDeltaTime(), 0);
+			stateTime += Gdx.graphics.getDeltaTime(); // Aumentamos statetime para cambiar de textura del personaje.
 		}
 	}
+	
 	
 	public boolean rightCollision(Rectangle rectangle) { // Comprueba si se colisiona por la derecha.
 		Rectangle auxRectangle = new Rectangle(body.x, body.y, body.width, body.height);

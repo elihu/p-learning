@@ -13,7 +13,7 @@ public class GameScreen extends AbstractScreen {
 	public GameScreen(Main main){
 		super(main);
 		map = new Map(main, batch);
-		texture = new Texture("");
+		texture = new Texture("badlogic.jpg");
 	}
 	@Override
 	public void render(float delta) { // Método que permite actualizar los valores del juego y dibujar el juego para que lo vea el usuario.

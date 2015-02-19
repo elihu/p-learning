@@ -23,7 +23,7 @@ public class Map {
 	private Player player; // El jugador del juego
 	private Sound dieSound; // Sonido cuando se muere 
 	private Array<Rectangle> platforms; // Un array que contiene todas las plataformas del juego
-	private Rectangle start, goal, returnStart; // La casilla de salida, la casilla de meta, y una casilla que si caes te devuelve al inicio, respectivamente.
+	private Rectangle start, goal; // La casilla de salida y la casilla de meta.
 	
 	public Map(Main main, SpriteBatch batch) {
 		this.main = main;
@@ -49,17 +49,16 @@ public class Map {
 	
 	private void update() { // Actualiza los valores de los personajes del juego
 		player.update(platforms); // Acualizamos los valores de player y comprobamos las colisiones con las plataformas
-		if(player.getBody().overlaps(returnStart)) // Si se cae del escenario
-			reset();
 		
 		if(player.getBody().overlaps(goal)) { // Si llega a la salida.
 			main.win = true;
+			reset();
 		}
 	}
 	
 	private void reset() { // Este metodo hace que el jugador vuelva a su posicion inicial
 		player.setPosition(start.x, start.y);
-		dieSound.play();
+		//dieSound.play();
 	}
 	
 	public void dispose() { // Destruye los elementos innecesarios
@@ -90,11 +89,17 @@ public class Map {
 				start = rectangle;
 			if(name.equals("PlayerGoal")) // Si se llama "PlayerGoal"
 				goal = rectangle;
-			if(name.equals("returnStart")) // Si se llama "returnStart"
-				returnStart = rectangle;
 		}
 		
 		objects = map.getLayers().get("Physics").getObjects(); // Cogemos del mapa los objetos llamados "Physics"
+		
+		for (MapObject object : objects) {
+			RectangleMapObject rectangleObject = (RectangleMapObject) object; // Lo transformamos en rectangulo
+			Rectangle rectangle = rectangleObject.getRectangle();
+			platforms.add(rectangle); // Las añadimos al array
+		} 
+		
+		objects = map.getLayers().get("Limits").getObjects(); // Cogemos del mapa los objetos llamados "Limits"
 		
 		for (MapObject object : objects) {
 			RectangleMapObject rectangleObject = (RectangleMapObject) object; // Lo transformamos en rectangulo
