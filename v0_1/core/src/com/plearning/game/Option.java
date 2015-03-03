@@ -7,8 +7,8 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 
 public class Option extends Entity {
-	public static final float WIDTH = 48; // Ancho
-	public static final float HEIGHT = 48; // Alto
+	public static final float WIDTH = 50; // Ancho
+	public static final float HEIGHT = 50; // Alto
 	private Texture image;
 	private int index;
 	private boolean pushed;
