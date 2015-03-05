@@ -11,12 +11,12 @@
  </tileset>
  <layer name="Background" width="15" height="23">
   <data encoding="base64" compression="zlib">
-   eJzF0OcKwzAMRtFAn91O997pHu/ZW4hBGMluGkp/HBw7+mRh1ykKj1LwCbLO1WdO8GJN9YhrtVX2LKOsdp9T+mvflrhGu9ea/302MnpZs6Xuteb3LbK5N2mTjWeU+y566GOAYf1WY0yU2ilmmGOBJVZYY4MtdtgrtRUOOOKEMy644oY7HngqtU2yQTj7JhtY2U96/iqby6f+/yPbdOZKkctatbnsC5zDyW4=
+   eJzF0OkOwiAQRtEmPjvUfd/RqlXf02tCE0JmKNoYf5xA6XzDBNMrCosyYBPCOuPPTMAGa6pHXCutYc8yykr3GaG/tNfENdK92vzvs4nSS5stda82v+2QbXuTLtl4xvC7jwGGGGHs32qKmVA7xwJLrLDGBlvssMcBR6HW4YQzKlxwxQ017njgKdQ6v1YZ2UZz9k22oWVzev4q25ZP/f9H9tOZ431O1im1bdkX21fJqg==
   </data>
  </layer>
  <layer name="Map" width="15" height="23">
   <data encoding="base64" compression="zlib">
-   eJxjYBgeIJmFMMYFGvDIgcBMPHINWOxAZhPSS4m9yHYh21lLY3sHyr+47AXh4e5fdDcMhL0gPBu/0aMACwAAtGQi/w==
+   eJxjYBgeIJmFMMYFGvDIgcBMPHINWOxAZhPSS4m9yHah209LewfKv7jsHQn+RXfDQNgLwoTMHgWYAABKUCLS
   </data>
  </layer>
  <layer name="Control" width="15" height="23">
@@ -29,27 +29,26 @@
    eJxjYKAc7GKFYFxgCgt28Ww2BFsMSc0kIHsilA+iQfzJOMygFphAovnyePxLS3CJxuGACxgPkL35A2SvA/vA2OtIY3tJTeeEQCdSHv7JjJqPYQCUz5HVjTQAADL8C48=
   </data>
  </layer>
- <objectgroup name="Physics" width="15" height="23" visible="0">
-  <object x="124" y="110" width="61" height="12"/>
-  <object x="215" y="109" width="31" height="13"/>
-  <object x="127" y="153" width="19" height="12"/>
-  <object x="151" y="151" width="75" height="13"/>
-  <object x="256" y="152" width="13" height="13"/>
-  <object x="134" y="193" width="48" height="13"/>
-  <object x="215" y="193" width="33" height="15"/>
-  <object x="131" y="235" width="53" height="15"/>
-  <object x="214" y="234" width="54" height="15"/>
-  <object x="129" y="275" width="54" height="17"/>
-  <object x="213" y="275" width="35" height="15"/>
-  <object x="129" y="319" width="119" height="15"/>
+ <objectgroup name="Physics" width="15" height="23">
+  <object x="127" y="107" width="62" height="17"/>
+  <object x="213" y="107" width="35" height="17"/>
+  <object x="149" y="150" width="79" height="17"/>
+  <object x="254" y="150" width="18" height="16"/>
+  <object x="128" y="191" width="59" height="18"/>
+  <object x="211" y="191" width="38" height="18"/>
+  <object x="129" y="233" width="57" height="19"/>
+  <object x="212" y="233" width="58" height="18"/>
+  <object x="129" y="275" width="58" height="19"/>
+  <object x="212" y="276" width="37" height="17"/>
+  <object x="128" y="318" width="122" height="18"/>
  </objectgroup>
- <objectgroup name="Limits" width="15" height="23" visible="0">
-  <object x="105" y="63" width="21" height="315"/>
+ <objectgroup name="Limits" width="15" height="23">
+  <object x="105" y="63" width="21" height="294"/>
   <object x="273" y="63" width="21" height="315"/>
   <object x="105" y="357" width="168" height="21"/>
   <object x="126" y="63" width="147" height="21"/>
  </objectgroup>
- <objectgroup name="Objects" width="15" height="23" visible="0">
+ <objectgroup name="Objects" width="15" height="23">
   <object name="PlayerStart" x="126" y="85" width="21" height="21"/>
   <object name="PlayerGoal" x="252" y="336" width="21" height="21"/>
   <object name="In6" x="126" y="21" width="21" height="21"/>
@@ -64,19 +63,20 @@
   <object name="Out3" x="210" y="42" width="21" height="21"/>
   <object name="Out2" x="231" y="42" width="21" height="21"/>
   <object name="Out1" x="252" y="42" width="21" height="21"/>
-  <object name="Control1" x="42" y="105" width="21" height="21"/>
-  <object name="Control2" x="42" y="147" width="21" height="21"/>
-  <object name="Control3" x="42" y="189" width="21" height="21"/>
-  <object name="Control4" x="42" y="231" width="21" height="21"/>
-  <object name="Control5" x="42" y="273" width="21" height="21"/>
-  <object name="Control6" x="42" y="315" width="21" height="21"/>
+  <object name="Control1" x="63" y="105" width="21" height="21"/>
+  <object name="Control2" x="63" y="147" width="21" height="21"/>
+  <object name="Control3" x="63" y="189" width="21" height="21"/>
+  <object name="Control4" x="63" y="231" width="21" height="21"/>
+  <object name="Control5" x="63" y="273" width="21" height="21"/>
+  <object name="Control6" x="63" y="315" width="21" height="21"/>
   <object name="Timer" x="21" y="0" width="63" height="42"/>
   <object name="Options" x="42" y="420" width="42" height="42"/>
   <object name="Restart" x="105" y="420" width="42" height="42"/>
   <object name="Pause" x="168" y="420" width="42" height="42"/>
   <object name="Play" x="231" y="420" width="42" height="42"/>
+  <object name="Out" x="189" y="84" width="21" height="21"/>
  </objectgroup>
- <objectgroup name="Slots" width="15" height="23" visible="0">
+ <objectgroup name="Slots" width="15" height="23">
   <object x="147" y="84" width="126" height="21"/>
   <object x="189" y="105" width="21" height="21"/>
   <object x="252" y="105" width="21" height="42"/>
@@ -94,5 +94,6 @@
   <object x="252" y="315" width="21" height="21"/>
   <object x="126" y="336" width="126" height="21"/>
   <object x="126" y="294" width="63" height="21"/>
+  <object x="126" y="147" width="21" height="21"/>
  </objectgroup>
 </map>

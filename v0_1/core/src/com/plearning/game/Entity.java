@@ -48,6 +48,11 @@ public class Entity {
 		body.x += x;
 		body.y += y;
 	}
+	public void rotate(int direction){
+		Vector2 center;
+		body.getCenter(center);
+		position.set(center.rotate(60*direction));
+	}
 	
 	public Rectangle getBody() { // devuelve el rectangulo que forma el personaje
 		return body;
