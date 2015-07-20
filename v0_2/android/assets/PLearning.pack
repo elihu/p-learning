@@ -1,0 +1,124 @@
+
+PLearning.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+background-w2
+  rotate: false
+  xy: 1, 217
+  size: 490, 805
+  orig: 490, 805
+  offset: 0, 0
+  index: -1
+background-w1
+  rotate: false
+  xy: 493, 217
+  size: 490, 805
+  orig: 490, 805
+  offset: 0, 0
+  index: -1
+pause
+  rotate: false
+  xy: 1, 145
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: -1
+restart
+  rotate: false
+  xy: 1, 73
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: -1
+play
+  rotate: false
+  xy: 73, 145
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: -1
+options
+  rotate: false
+  xy: 1, 1
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: -1
+red
+  rotate: false
+  xy: 985, 987
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+stopGreen
+  rotate: false
+  xy: 73, 108
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+blue
+  rotate: false
+  xy: 145, 180
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+green
+  rotate: false
+  xy: 985, 950
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+floor-w1
+  rotate: false
+  xy: 73, 71
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+floor-w2
+  rotate: false
+  xy: 182, 180
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+stopRed
+  rotate: false
+  xy: 985, 913
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+door
+  rotate: false
+  xy: 73, 34
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+yellow
+  rotate: false
+  xy: 219, 180
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+stopBlue
+  rotate: false
+  xy: 985, 876
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+stopYellow
+  rotate: false
+  xy: 256, 180
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1

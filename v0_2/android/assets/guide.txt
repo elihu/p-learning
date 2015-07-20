@@ -1,0 +1,13 @@
+* we have 14 cells width and 23 cells height.
+* each cell is 35*35 pixels
+* the labyrinth space begins at cell 5-4  (beginning in 0) and ends at cell 12-18
+* it means it begins at 175px width 140px height and ends 420px width 630px height
+
+* Control Grid begins in cell 2 width 5 height, to 2 width 17 height. Height increases on 2. It means it begin at 70px width 175 height and end at 70px width, 595 height.
+
+* balls in grid begins at cell 5 width 20 height and it ends at 7 width 21 height
+* balls out grid begins at cell 10 width 20 height and it ends at 12 width 21 height
+
+* timer square begins at 1w 21h and ends at 2w 21h
+
+* For the options the positions will begin with "options" (1w 1h), "restart" (5w 1h), "pause" (8w 1h), "play" (11w 1h).
