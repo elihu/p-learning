@@ -1,3 +1,4 @@
+/*Labyrinth customizable, still not floor objects*/
 package com.plearning.game;
 
 import java.util.Random;
