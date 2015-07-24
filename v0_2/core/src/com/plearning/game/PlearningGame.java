@@ -1,10 +1,7 @@
 package com.plearning.game;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -27,6 +24,8 @@ public class PlearningGame extends Game {
 	float scaleFactorY;
 	
 	AssetManager manager;
+	public boolean soundEnabled;
+	public float soundVolume;
 	
 	public PlearningGame(){
 		
@@ -44,15 +43,15 @@ public class PlearningGame extends Game {
 		scaleFactorX = Math.round(windowWidth/14);
 		scaleFactorY = Math.round(windowHeight/23);
 		
-		//assets
+		/*//assets  (Moved to LoadingScreen)
 		manager.load("SOUNDS/pop.ogg", Sound.class);
 		manager.load("SOUNDS/music.mp3", Music.class);
 		manager.load("PLearning.pack", TextureAtlas.class);
-		manager.finishLoading();
-		
-		batch = new SpriteBatch();
+		manager.finishLoading();	
 		atlas = manager.get("PLearning.pack", TextureAtlas.class);
-		setScreen(new PlearningGameScene(this));
+		*/
+		batch = new SpriteBatch();
+		setScreen(new LoadingScreen(this));
 		
 		
 		

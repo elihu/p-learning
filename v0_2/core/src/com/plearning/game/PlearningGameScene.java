@@ -1,20 +1,16 @@
 package com.plearning.game;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class PlearningGameScene extends ScreenAdapter {
 	AssetManager manager;
@@ -74,10 +70,14 @@ public class PlearningGameScene extends ScreenAdapter {
 		
 		labyrinth = new Labyrinth (game, manager);
 		//Sound and Music
-		tapSound = manager.get("SOUNDS/pop.ogg", Sound.class);
-		music = manager.get("SOUNDS/music.mp3", Music.class);
-		music.setLooping(true);
-		music.play();
+		if(game.soundEnabled){
+			tapSound = manager.get("SOUNDS/pop.ogg", Sound.class);
+			music = manager.get("SOUNDS/music.mp3", Music.class);
+			music.setLooping(true);
+			music.play();
+			music.setVolume(game.soundVolume);
+		}
+		
 		
 		
 		
@@ -89,7 +89,9 @@ public class PlearningGameScene extends ScreenAdapter {
 			touchPosition.set(Gdx.input.getX(), Gdx.input.getY(), 0);
 			camera.unproject(touchPosition);
 			
-			tapSound.play();
+			if(game.soundEnabled){
+				tapSound.play();
+			}
 			System.out.println("Touched at: "+ gridValueX(touchPosition.x)+", "+gridValueY(touchPosition.y));
 		}
 	}
