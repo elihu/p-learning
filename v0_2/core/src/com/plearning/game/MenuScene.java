@@ -1,7 +1,6 @@
 package com.plearning.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -21,7 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
-public class MenuScene extends ScreenAdapter {
+public class MenuScene extends BaseScene {
 	private Stage stage;
 	private Image screenBg;
 	private Skin skin;
@@ -44,6 +43,7 @@ public class MenuScene extends ScreenAdapter {
 	private PlearningGame game;
 	
 	public MenuScene(PlearningGame plearning) {
+		super(plearning);
 		game = plearning;
 		
 		stage = new Stage(game.viewport);
@@ -55,7 +55,7 @@ public class MenuScene extends ScreenAdapter {
 		helpTip=new Label("Solve the labyrinths!",skin);
 		helpTip.setColor(Color.GREEN);
 		
-		table=new Table().debug();
+		table=new Table();//.debug();
 		playButton=new TextButton("PLAY GAME", skin);
 		table.add(playButton).padBottom(10);
 		table.row();
@@ -69,7 +69,7 @@ public class MenuScene extends ScreenAdapter {
 		table.add(exitButton);
 		table.setPosition(400, -200);
 		
-		options=new Table().debug();
+		options=new Table();//.debug();
 		Label soundTitle=new Label("SOUND OPTIONS",skin);
 		soundTitle.setColor(Color.GREEN);
 		options.add(soundTitle).padBottom(25).colspan(2);
@@ -87,7 +87,7 @@ public class MenuScene extends ScreenAdapter {
 		muteCheckBox.setChecked(!game.soundEnabled);
 		volumeSlider.setValue(game.soundVolume);
 		
-		exit=new Table().debug();
+		exit=new Table();//.debug();
 		Label exitTitle=new Label("Confirm Exit",skin);
 		exitTitle.setColor(Color.GREEN);
 		exit.add(exitTitle).padBottom(25).colspan(2);
@@ -237,4 +237,5 @@ public class MenuScene extends ScreenAdapter {
 		stage.dispose();
 		skin.dispose();
 	}
+	
 }
