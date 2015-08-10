@@ -37,6 +37,9 @@ public class PlearningGame extends Game {
 		viewport = new FitViewport(windowWidth, windowHeight, camera);
 		
 		manager = new AssetManager();
+		
+		soundEnabled = true;
+		soundVolume = 2;
 	}
 	@Override
 	public void create() {
