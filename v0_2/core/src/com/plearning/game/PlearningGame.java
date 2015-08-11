@@ -20,8 +20,8 @@ public class PlearningGame extends Game {
 	
 	FPSLogger fpsLogger; //prints fps in-game, only in dev
 	
-	float scaleFactorX;
-	float scaleFactorY;
+	int scaleFactorX;
+	int scaleFactorY;
 	
 	AssetManager manager;
 	public boolean soundEnabled;

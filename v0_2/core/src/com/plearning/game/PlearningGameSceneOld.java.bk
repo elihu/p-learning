@@ -11,44 +11,33 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
-public class PlearningGameScene extends BaseScene {
+public class PlearningGameSceneOld extends BaseScene {
 	AssetManager manager;
 	
 	AtlasRegion background;
+	AtlasRegion control;
 	AtlasRegion ball;
-	
+	AtlasRegion pause;
+	AtlasRegion options;
+	AtlasRegion play;
 	//AtlasRegion restart;
 	AtlasRegion door;
 	
-	//Actors and Stage
 	Stage stage;
-	OptionActor options;
 	OptionActor restart;
-	OptionActor play;
-	OptionActor pause;
 	
-	ControlActor control1;
-	ControlActor control2;
-	ControlActor control3;
-	ControlActor control4;
-	ControlActor control5;
-	ControlActor control6;
-	ControlActor control7;
-	
-	boolean controlPushed;
 	Vector3 touchPosition;
-	Vector2 controlPosition;
+	private final Vector2 optionsPosition;
+	private final Vector2 restartPosition;
+	private final Vector2 control1IniPosition;
+	private Vector2 control1Position;
 	
-	//private final Vector2 control1IniPosition;
-	//private Vector2 control1Position;
 	
-	
-	//private boolean control1Pushed;
+	private boolean control1Pushed;
 	
 	SpriteBatch batch;
 	OrthographicCamera camera;
@@ -70,7 +59,7 @@ public class PlearningGameScene extends BaseScene {
 	
 	
 	
-	public PlearningGameScene (PlearningGame plearning) {
+	public PlearningGameSceneOld (PlearningGame plearning) {
 		super(plearning);
 		game = plearning;
 		
@@ -85,27 +74,24 @@ public class PlearningGameScene extends BaseScene {
 		scaleFactorX = game.scaleFactorX;
 		scaleFactorY = game.scaleFactorY;
 		background = atlas.findRegion("background-w1");
-		
+		control = atlas.findRegion("stopGreen");
 		ball = atlas.findRegion("blue");
+		pause = atlas.findRegion("pause");
+		options = atlas.findRegion("options");
+		play = atlas.findRegion("play");
+		//restart = atlas.findRegion("restart");
 		door = atlas.findRegion("door");
 		
-		options = new OptionActor(game, OptionActor.optionType.OPTIONS);
-		restart = new OptionActor(game, OptionActor.optionType.RESTART);
-		play = new OptionActor(game, OptionActor.optionType.PLAY);
-		pause = new OptionActor(game, OptionActor.optionType.PAUSE);
-		
-		control1 = new ControlActor(game, ControlActor.controlType.FLAG, 1);
-		control2 = new ControlActor(game, ControlActor.controlType.IFLEFT, 2);
-		control3 = new ControlActor(game, ControlActor.controlType.FLAG, 3);
-		control4 = new ControlActor(game, ControlActor.controlType.FLAG, 4);
-		control5 = new ControlActor(game, ControlActor.controlType.FLAG, 5);
-		control6 = new ControlActor(game, ControlActor.controlType.CREATOR, 6);
-		control7 = new ControlActor(game, ControlActor.controlType.FLAG, 7);
+		//--restart = new OptionActor(atlas.findRegion("restart"));
 		
 		touchPosition = new Vector3(0,0,0);
-		controlPosition = new Vector2(0,0);
-		controlPushed = false;		
-		//control1Pushed = false;
+		optionsPosition = new Vector2(35, 35);
+		restartPosition = new Vector2(175, 35);
+		control1IniPosition = new Vector2(70, 175);
+		control1Position = control1IniPosition;
+		
+		
+		control1Pushed = false;
 		
 		labyrinth = new Labyrinth (game, manager);
 		//Sound and Music
@@ -117,39 +103,10 @@ public class PlearningGameScene extends BaseScene {
 		}
 		
 		stage.addActor(restart);
-		stage.addActor(options);
-		stage.addActor(play);
-		stage.addActor(pause);
-		stage.addActor(control1);
-		stage.addActor(control2);
-		stage.addActor(control3);
-		stage.addActor(control4);
-		stage.addActor(control5);
-		stage.addActor(control6);
-		stage.addActor(control7);
-		
 		restart.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 resetScene();
-            }
-        });
-		options.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-            	gameState = GameState.FINISH;
-            }
-        });
-		play.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-            	gameState = GameState.PLAYING;
-            }
-        });
-		pause.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-            	gameState = GameState.PAUSE;
             }
         });
 		
@@ -158,27 +115,39 @@ public class PlearningGameScene extends BaseScene {
 		if(Gdx.input.justTouched()){
 			touchPosition.set(Gdx.input.getX(), Gdx.input.getY(), 0);
 			camera.unproject(touchPosition);
+			
 
 			if(game.soundEnabled){
 				tapSound.play();
 			}
 			
-			
+			/*
 			//Trying to catch touched positions
 			System.out.println("Touched at: "+ gridValueX(touchPosition.x)+", "+gridValueY(touchPosition.y));
-			
-			
-			if(controlPushed){
-				controlPosition.x = ungridValueX(touchPosition.x);
-				controlPosition.y = ungridValueY(touchPosition.y);
-				control1.setPosition(controlPosition.x, controlPosition.y);
-				controlPushed = false;
+			if(gridOverlaps(touchPosition.x, optionsPosition.x, touchPosition.y, optionsPosition.y)){
+				gameState = GameState.FINISH;
+				
 			}
 			
-			else if(control1.overlaps(touchPosition)){
-				controlPushed = true;
+			else if(control1Pushed){
+				control1Position.x = ungridValueX(touchPosition.x);
+				control1Position.y = ungridValueY(touchPosition.y);
+				control1Pushed = false;
 			}
+			
+			else if(gridOverlaps(touchPosition.x, control1Position.x, touchPosition.y, control1Position.y)){
+				control1Pushed = true;
+				
+			}
+			else if(gridOverlaps(touchPosition.x, restartPosition.x, touchPosition.y, restartPosition.y)){
+				resetScene();
+				
+			}*/
+			
+			
+			
 		}
+		
 	}
 	private void updateScene(){
 		scaleFactorX = game.scaleFactorX;
@@ -192,20 +161,12 @@ public class PlearningGameScene extends BaseScene {
 				music.setVolume(game.soundVolume);
 			}
 			
-			pause.setVisible(false);
-			control1.setX(control1.control1Position.x);
-			control1.setY(control1.control1Position.y);
-			//control1Position.y = control1IniPosition.y;
+			control1Position.x = control1IniPosition.x;
+			control1Position.y = control1IniPosition.y;
 			gameState = GameState.CONTROLS;
 		}
 		else if(gameState == GameState.CONTROLS){
 			captureTouch();
-		}
-		else if(gameState == GameState.PAUSE){
-		}
-		else if(gameState == GameState.PLAYING){
-			pause.setVisible(true);
-			//gameState = GameState.CONTROLS;
 		}
 		else if(gameState == GameState.FINISH){
 			if(game.soundEnabled){
@@ -217,14 +178,14 @@ public class PlearningGameScene extends BaseScene {
 	}
 	
 	private int gridValueX(float value){
-		return (int) Math.floor(value/35); 
+		return Math.round(value/35); 
 	}
 	private int ungridValueX(float value){
 		return gridValueX(value)*35;
 	}
 	
 	private int gridValueY(float value){
-		return (int) Math.floor(value/35);
+		return Math.round(value/35);
 	}
 	private int ungridValueY(float value){
 		return gridValueY(value)*35;
@@ -239,17 +200,22 @@ public class PlearningGameScene extends BaseScene {
 		batch.disableBlending();
 		batch.draw(background, 0, 0);
 		batch.enableBlending();
-		
 		batch.draw(door, 175, 630);
+		//batch.draw(labyrinth, 175, 140);
+		//batch.draw(labyrinth, 420, 630);
 		batch.draw(door, 420, 140);
-		
+		batch.draw(control, control1Position.x, control1Position.y);
+		batch.draw(control, 70, 595);
 		batch.draw(ball, 175, 700);
 		batch.draw(ball, 245, 735);
 		batch.draw(ball, 350, 700);
 		batch.draw(ball, 420, 735);
-				
-		batch.end();
+		batch.draw(options, optionsPosition.x, optionsPosition.y);
+		//batch.draw(restart, restartPosition.x, restartPosition.y);
+		batch.draw(pause, 280, 35);
+		batch.draw(play, 395, 35);
 		
+		batch.end();
 		labyrinth.draw();
 	}
 	private void resetScene(){
@@ -267,7 +233,7 @@ public class PlearningGameScene extends BaseScene {
 		
 		updateScene();
 		drawScene();
-		stage.draw();
+		restart.draw(batch, delta);
 	}
 	protected void handleBackPress() {
 		//-- depurar
@@ -279,15 +245,14 @@ public class PlearningGameScene extends BaseScene {
 	public void dispose(){
 		tapSound.dispose();
 		music.dispose();
-		stage.dispose();
 	}
 	
-	/*private boolean gridOverlaps(float i1, float i2, float j1, float j2){
+	private boolean gridOverlaps(float i1, float i2, float j1, float j2){
 		int x1 = gridValueX(i1);
 		int x2 = gridValueX(i2);
 		int y1 = gridValueY(j1);
 		int y2 = gridValueY(j2); 
 		
 		return (x1==x2 || x1==(x2+1)) && (y1==y2 || y1==(y2+1));
-	}*/
+	}
 }

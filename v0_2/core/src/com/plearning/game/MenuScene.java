@@ -57,16 +57,13 @@ public class MenuScene extends BaseScene {
 		
 		table=new Table();//.debug();
 		playButton=new TextButton("PLAY GAME", skin);
-		table.add(playButton).padBottom(10);
+		table.add(playButton).padBottom(10).fill();
 		table.row();
 		optionsButton=new TextButton("SOUND OPTIONS", skin);
-		table.add(optionsButton).padBottom(10);
-		table.row();
-		
-		table.add(new TextButton("LEADERBOARD", skin)).padBottom(10);
+		table.add(optionsButton).padBottom(10).fill();
 		table.row();
 		exitButton=new TextButton("EXIT GAME", skin);
-		table.add(exitButton);
+		table.add(exitButton).fill();
 		table.setPosition(400, -200);
 		
 		options=new Table();//.debug();
@@ -108,7 +105,7 @@ public class MenuScene extends BaseScene {
 		playButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new PlearningGameScene(game));
+                game.setScreen(new WorldScene(game));
             }
         });
 		optionsButton.addListener(new ClickListener(){
