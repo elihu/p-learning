@@ -45,80 +45,227 @@ options
   orig: 70, 70
   offset: 0, 0
   index: -1
-red
+deleteBlue
   rotate: false
   xy: 985, 987
   size: 35, 35
   orig: 35, 35
   offset: 0, 0
   index: -1
-stopGreen
+dirchangeGreen
   rotate: false
   xy: 73, 108
   size: 35, 35
   orig: 35, 35
   offset: 0, 0
   index: -1
-blue
+red
   rotate: false
   xy: 145, 180
   size: 35, 35
   orig: 35, 35
   offset: 0, 0
   index: -1
-green
+stopGreen
   rotate: false
   xy: 985, 950
   size: 35, 35
   orig: 35, 35
   offset: 0, 0
   index: -1
-floor-w1
+deleteGreen
   rotate: false
   xy: 73, 71
   size: 35, 35
   orig: 35, 35
   offset: 0, 0
   index: -1
-floor-w2
+blue
   rotate: false
   xy: 182, 180
   size: 35, 35
   orig: 35, 35
   offset: 0, 0
   index: -1
-stopRed
+convertGreen
   rotate: false
   xy: 985, 913
   size: 35, 35
   orig: 35, 35
   offset: 0, 0
   index: -1
-door
+green
   rotate: false
   xy: 73, 34
   size: 35, 35
   orig: 35, 35
   offset: 0, 0
   index: -1
-yellow
+floor-w1
   rotate: false
   xy: 219, 180
   size: 35, 35
   orig: 35, 35
   offset: 0, 0
   index: -1
-stopBlue
+floor-w2
   rotate: false
   xy: 985, 876
   size: 35, 35
   orig: 35, 35
   offset: 0, 0
   index: -1
-stopYellow
+ifrightGreen
   rotate: false
   xy: 256, 180
   size: 35, 35
   orig: 35, 35
+  offset: 0, 0
+  index: -1
+ifrightRed
+  rotate: false
+  xy: 985, 839
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+stopRed
+  rotate: false
+  xy: 293, 180
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+door
+  rotate: false
+  xy: 985, 802
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+deleteYellow
+  rotate: false
+  xy: 330, 180
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+ifleftBlue
+  rotate: false
+  xy: 985, 765
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+dirchangeRed
+  rotate: false
+  xy: 367, 180
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+yellow
+  rotate: false
+  xy: 985, 728
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+deleteRed
+  rotate: false
+  xy: 404, 180
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+ifrightBlue
+  rotate: false
+  xy: 985, 691
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+convertYellow
+  rotate: false
+  xy: 441, 180
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+ifleftRed
+  rotate: false
+  xy: 985, 654
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+dirchangeYellow
+  rotate: false
+  xy: 478, 180
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+ifrightYellow
+  rotate: false
+  xy: 985, 617
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+stopBlue
+  rotate: false
+  xy: 515, 180
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+ifleftYellow
+  rotate: false
+  xy: 985, 580
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+stopYellow
+  rotate: false
+  xy: 552, 180
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+dirchangeBlue
+  rotate: false
+  xy: 985, 543
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+convertRed
+  rotate: false
+  xy: 589, 180
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+convertBlue
+  rotate: false
+  xy: 985, 506
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+ifleftGreen
+  rotate: false
+  xy: 626, 180
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+duplicator
+  rotate: false
+  xy: 985, 470
+  size: 35, 34
+  orig: 35, 34
   offset: 0, 0
   index: -1
