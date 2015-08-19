@@ -1,12 +1,12 @@
 package com.plearning.game;
 
-import java.util.Random;
-
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 
 public class Labyrinth {
 	//Free Blocks Determinist
@@ -22,7 +22,7 @@ public class Labyrinth {
 	private final int iFin = 12;
 	private final int jIni = 5;
 	private final int jFin = 17;
-	private final Random rand = new Random();
+	//private final Random rand = new Random();
 	PlearningGame game;
 	SpriteBatch batch;
 
@@ -30,7 +30,7 @@ public class Labyrinth {
 	float scaleFactor = 35;
 	
 	AtlasRegion floor; //temporal hasta convertirlo en clase y comprobar overlaps
-
+	public Array<Rectangle> platforms = new Array<Rectangle>(); // Un array que contiene todas las plataformas del juego
 	
 	public Labyrinth(PlearningGame plearning, AssetManager manager){
 		game = plearning;
@@ -40,7 +40,6 @@ public class Labyrinth {
 	}
 	
 	public void draw(){
-		boolean sw=true;
 		for(int i = iIni; i<= iFin ; i++){
 			for(int j = jIni; j<= jFin; j+=2){
 				
@@ -56,9 +55,44 @@ public class Labyrinth {
 											batch.draw(floor, i*scaleFactor, j*scaleFactor);
 											batch.end();											
 										}
-				
 			}
 		}
+	}
+
+	public void initialize(){
+		for(int i = iIni-1; i<= iFin+1 ; i++){
+			for(int j = jIni; j<= jFin; j+=2){
+				
+				if(i==free1.x && j== free1.y){}
+					else if(i==free2.x && j== free2.y){}
+						else if(i==free3.x && j== free3.y){}
+							else if(i==free4.x && j== free4.y){}
+								else if(i==free5.x && j== free5.y){}
+									else if(i==free6.x && j== free6.y){}
+										else if(i==free7.x && j== free7.y){}
+										
+				platforms.add(new Rectangle(i*scaleFactor, j*scaleFactor, 35, 35));	
+			}
+		}
+	}
+	
+	public Array<Rectangle> getPlatforms(){return platforms;}
+	public boolean validatePosition(Vector2 controlPosition) {
+		boolean value;
+		
+		//Overlapping doors control
+		if(controlPosition.dst2(5, 18)==0 || controlPosition.dst2(12, 4)==0)
+			return false;
+		if(controlPosition.equals(free1) || controlPosition.equals(free2) ||controlPosition.equals(free3) ||controlPosition.equals(free4) ||controlPosition.equals(free5) ||controlPosition.equals(free6) ||controlPosition.equals(free7))
+			return true;
+		
+		//Controlling setting the control back to the controls box
+		if(controlPosition.x >= 1 && controlPosition.x<=3 && controlPosition.y>=4 && controlPosition.y<=18)
+			return true;
+		value = (controlPosition.x>=iIni && controlPosition.x <= iFin);
+		value = value && (controlPosition.y>=jIni-1 && controlPosition.y <= jFin+1);
+		value = value && (controlPosition.y%2 == 0);
+		return value;
 	}
 
 }

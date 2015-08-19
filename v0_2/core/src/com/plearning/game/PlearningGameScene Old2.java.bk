@@ -1,7 +1,5 @@
 package com.plearning.game;
 
-import java.util.Vector;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
@@ -13,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -21,7 +20,7 @@ public class PlearningGameScene extends BaseScene {
 	AssetManager manager;
 	
 	AtlasRegion background;
-	//AtlasRegion ball;
+	AtlasRegion ball;
 	
 	//AtlasRegion restart;
 	AtlasRegion door;
@@ -33,18 +32,29 @@ public class PlearningGameScene extends BaseScene {
 	OptionActor play;
 	OptionActor pause;
 	
-	Vector<ControlActor> controls;
-	Vector<BallActor> ballsIn;
-	Vector<BallActor> ballsOut;
+	ControlActor control1;
+	ControlActor control2;
+	ControlActor control3;
+	ControlActor control4;
+	ControlActor control5;
+	ControlActor control6;
+	ControlActor control7;
 	
-	int nControls = 7;
-	int nBallsIn = 4;
-	int nBallsOut = 3;
-	
-	boolean [] controlsPushed = {false, false, false, false, false, false, false};
+	boolean control1Pushed;
+	boolean control2Pushed;
+	boolean control3Pushed;
+	boolean control4Pushed;
+	boolean control5Pushed;
+	boolean control6Pushed;
+	boolean control7Pushed;
 	Vector3 touchPosition;
 	Vector2 controlPosition;
 	
+	//private final Vector2 control1IniPosition;
+	//private Vector2 control1Position;
+	
+	
+	//private boolean control1Pushed;
 	
 	SpriteBatch batch;
 	OrthographicCamera camera;
@@ -59,7 +69,7 @@ public class PlearningGameScene extends BaseScene {
 	int scaleFactorY;
 	
 	static enum GameState{
-		INIT, CONTROLS, PLAYING, PAUSE, FINISH, OPTIONS, START
+		INIT, CONTROLS, PLAYING, PAUSE, FINISH, OPTIONS
 	}
 	
 	GameState gameState = GameState.INIT;
@@ -70,11 +80,9 @@ public class PlearningGameScene extends BaseScene {
 		super(plearning);
 		game = plearning;
 		
-		/*Static initializations*/
+		/*Static inicializations*/
 		ControlActor.initialize();
-		BallActor.initialize();
 		//-----------------------
-		
 		stage = new Stage(game.viewport);
 		Gdx.input.setInputProcessor(stage);
 		
@@ -87,7 +95,7 @@ public class PlearningGameScene extends BaseScene {
 		scaleFactorY = game.scaleFactorY;
 		background = atlas.findRegion("background-w1");
 		
-		//ball = atlas.findRegion("blue");
+		ball = atlas.findRegion("blue");
 		door = atlas.findRegion("door");
 		
 		options = new OptionActor(game, OptionActor.optionType.OPTIONS);
@@ -95,37 +103,24 @@ public class PlearningGameScene extends BaseScene {
 		play = new OptionActor(game, OptionActor.optionType.PLAY);
 		pause = new OptionActor(game, OptionActor.optionType.PAUSE);
 		
-		//Here we choose the controls
-		/* watch out here --> int nControls = 7; */
-		controls = new Vector<ControlActor>();
-		controls.add(new ControlActor(game, ControlActor.controlType.DESTRUCTOR, ControlActor.controlColor.YELLOW, 0));
-		controls.add(new ControlActor(game, ControlActor.controlType.IFLEFT, ControlActor.controlColor.YELLOW, 1));
-		controls.add(new ControlActor(game, ControlActor.controlType.DESTRUCTOR, ControlActor.controlColor.RED, 2));
-		controls.add(new ControlActor(game, ControlActor.controlType.CREATOR, ControlActor.controlColor.BLUE, 3));
-		controls.add(new ControlActor(game, ControlActor.controlType.CONVERTER, ControlActor.controlColor.BLUE, 4));
-		controls.add(new ControlActor(game, ControlActor.controlType.IFRIGHT, ControlActor.controlColor.BLUE, 5));
-		controls.add(new ControlActor(game, ControlActor.controlType.DESTRUCTOR, ControlActor.controlColor.BLUE, 6));
-		
-		//Here we choose the balls in and out
-		ballsIn = new Vector<BallActor>();
-		ballsOut = new Vector<BallActor>();
-		
-			/*	Care with this ->
-			 * 		int nBallsIn = 4;
-			 * 		int nBallsOut = 3;
-			 * 
-			*/
-		ballsIn.addElement(new BallActor(game, BallActor.BallType.BLUE, BallActor.BallInOut.IN, 0));
-		ballsIn.addElement(new BallActor(game, BallActor.BallType.RED, BallActor.BallInOut.IN, 1));
-		ballsIn.addElement(new BallActor(game, BallActor.BallType.RED, BallActor.BallInOut.IN, 2));
-		ballsIn.addElement(new BallActor(game, BallActor.BallType.YELLOW, BallActor.BallInOut.IN, 3));
-		
-		ballsOut.addElement(new BallActor(game, BallActor.BallType.BLUE, BallActor.BallInOut.OUT, 0));
-		ballsOut.addElement(new BallActor(game, BallActor.BallType.BLUE, BallActor.BallInOut.OUT, 1));
-		ballsOut.addElement(new BallActor(game, BallActor.BallType.BLUE, BallActor.BallInOut.OUT, 2));
+		control1 = new ControlActor(game, ControlActor.controlType.FLAG, 0);
+		control2 = new ControlActor(game, ControlActor.controlType.IFLEFT, 1);
+		control3 = new ControlActor(game, ControlActor.controlType.DESTRUCTOR, 2);
+		control4 = new ControlActor(game, ControlActor.controlType.CREATOR, 3);
+		control5 = new ControlActor(game, ControlActor.controlType.FLAG, 4);
+		control6 = new ControlActor(game, ControlActor.controlType.CREATOR, 5);
+		control7 = new ControlActor(game, ControlActor.controlType.IFRIGHT, 6);
 		
 		touchPosition = new Vector3(0,0,0);
 		controlPosition = new Vector2(0,0);
+		
+		control1Pushed = false;
+		control2Pushed = false;
+		control3Pushed = false;
+		control4Pushed = false;
+		control5Pushed = false;
+		control6Pushed = false;
+		control7Pushed = false;
 		
 		
 		labyrinth = new Labyrinth (game, manager);
@@ -141,18 +136,13 @@ public class PlearningGameScene extends BaseScene {
 		stage.addActor(options);
 		stage.addActor(play);
 		stage.addActor(pause);
-		
-		for(int i=0; i<nControls;i++){
-			stage.addActor(controls.get(i));
-		}
-		
-		for(int i=0; i<nBallsIn;i++){
-			stage.addActor(ballsIn.get(i));
-		}
-		
-		for(int i=0; i<nBallsOut;i++){
-			stage.addActor(ballsOut.get(i));
-		}
+		stage.addActor(control1);
+		stage.addActor(control2);
+		stage.addActor(control3);
+		stage.addActor(control4);
+		stage.addActor(control5);
+		stage.addActor(control6);
+		stage.addActor(control7);
 		
 		restart.addListener(new ClickListener(){
             @Override
@@ -169,7 +159,7 @@ public class PlearningGameScene extends BaseScene {
 		play.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-            	gameState = GameState.START;
+            	gameState = GameState.PLAYING;
             }
         });
 		pause.addListener(new ClickListener(){
@@ -178,10 +168,6 @@ public class PlearningGameScene extends BaseScene {
             	gameState = GameState.PAUSE;
             }
         });
-		
-		/*Static initializations*/
-		labyrinth.initialize();
-		//-----------------------
 		
 	}
 	private void captureTouch(){
@@ -193,20 +179,85 @@ public class PlearningGameScene extends BaseScene {
 				tapSound.play();
 			}
 			
+			
 			//Trying to catch touched positions
 			System.out.println("Touched at: "+ gridValueX(touchPosition.x)+", "+gridValueY(touchPosition.y));
 			
-			for(int i=0;i<nControls;i++){
-				if(controlsPushed[i]){
-					controlPosition.x = ungridValueX(touchPosition.x);
-					controlPosition.y = ungridValueY(touchPosition.y);
-					if(labyrinth.validatePosition(new Vector2 (gridValueX(controlPosition.x), gridValueY(controlPosition.y))))
-						controls.get(i).setPosition(controlPosition.x, controlPosition.y);
-					controlsPushed[i] = false;
-				}
-				else if(controls.get(i).overlaps(touchPosition)){
-					controlsPushed[i] = true;
-				}
+			
+			if(control1Pushed){
+				controlPosition.x = ungridValueX(touchPosition.x);
+				controlPosition.y = ungridValueY(touchPosition.y);
+				control1.setPosition(controlPosition.x, controlPosition.y);
+				control1Pushed = false;
+			}
+			
+			else if(control1.overlaps(touchPosition)){
+				control1Pushed = true;
+			}
+			
+			else if(control2Pushed){
+				controlPosition.x = ungridValueX(touchPosition.x);
+				controlPosition.y = ungridValueY(touchPosition.y);
+				control2.setPosition(controlPosition.x, controlPosition.y);
+				control2Pushed = false;
+			}
+			
+			else if(control2.overlaps(touchPosition)){
+				control2Pushed = true;
+			}
+			
+			else if(control3Pushed){
+				controlPosition.x = ungridValueX(touchPosition.x);
+				controlPosition.y = ungridValueY(touchPosition.y);
+				control3.setPosition(controlPosition.x, controlPosition.y);
+				control3Pushed = false;
+			}
+			
+			else if(control3.overlaps(touchPosition)){
+				control3Pushed = true;
+			}
+			
+			else if(control4Pushed){
+				controlPosition.x = ungridValueX(touchPosition.x);
+				controlPosition.y = ungridValueY(touchPosition.y);
+				control4.setPosition(controlPosition.x, controlPosition.y);
+				control4Pushed = false;
+			}
+			
+			else if(control4.overlaps(touchPosition)){
+				control4Pushed = true;
+			}
+			else if(control5Pushed){
+				controlPosition.x = ungridValueX(touchPosition.x);
+				controlPosition.y = ungridValueY(touchPosition.y);
+				control5.setPosition(controlPosition.x, controlPosition.y);
+				control5Pushed = false;
+			}
+			
+			else if(control5.overlaps(touchPosition)){
+				control5Pushed = true;
+			}
+			
+			else if(control6Pushed){
+				controlPosition.x = ungridValueX(touchPosition.x);
+				controlPosition.y = ungridValueY(touchPosition.y);
+				control6.setPosition(controlPosition.x, controlPosition.y);
+				control6Pushed = false;
+			}
+			
+			else if(control6.overlaps(touchPosition)){
+				control6Pushed = true;
+			}
+			
+			else if(control7Pushed){
+				controlPosition.x = ungridValueX(touchPosition.x);
+				controlPosition.y = ungridValueY(touchPosition.y);
+				control7.setPosition(controlPosition.x, controlPosition.y);
+				control7Pushed = false;
+			}
+			
+			else if(control7.overlaps(touchPosition)){
+				control7Pushed = true;
 			}
 		}
 	}
@@ -223,14 +274,13 @@ public class PlearningGameScene extends BaseScene {
 			}
 			
 			pause.setVisible(false);
-			
-			for(int i=0; i< nControls; i++){
-				controls.get(i).resetPosition();
-			}
-			for(int i=0; i< nBallsIn; i++){
-				ballsIn.get(i).resetPosition();
-			}
-			
+			control1.resetPosition();
+			control2.resetPosition();
+			control3.resetPosition();
+			control4.resetPosition();
+			control5.resetPosition();
+			control6.resetPosition();
+			control7.resetPosition();
 			gameState = GameState.CONTROLS;
 		}
 		else if(gameState == GameState.CONTROLS){
@@ -238,13 +288,8 @@ public class PlearningGameScene extends BaseScene {
 		}
 		else if(gameState == GameState.PAUSE){
 		}
-		else if(gameState == GameState.START){
-			ballsIn.get(0).start();
-			gameState = GameState.PLAYING;
-		}
 		else if(gameState == GameState.PLAYING){
 			pause.setVisible(true);
-			ballsIn.get(0).update(labyrinth.getPlatforms());
 			//gameState = GameState.CONTROLS;
 		}
 		else if(gameState == GameState.FINISH){
@@ -283,10 +328,10 @@ public class PlearningGameScene extends BaseScene {
 		batch.draw(door, 175, 630);
 		batch.draw(door, 420, 140);
 		
-		/*batch.draw(ball, 175, 700);
+		batch.draw(ball, 175, 700);
 		batch.draw(ball, 245, 735);
 		batch.draw(ball, 350, 700);
-		batch.draw(ball, 420, 735);*/
+		batch.draw(ball, 420, 735);
 				
 		batch.end();
 		
