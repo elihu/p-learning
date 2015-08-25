@@ -74,7 +74,9 @@ public class LoadingScreen extends ScreenAdapter {
 
         // Add everything to be loaded, for instance:
         game.manager.load("SOUNDS/pop.ogg", Sound.class);
-		game.manager.load("SOUNDS/music.mp3", Music.class);
+		game.manager.load("SOUNDS/w1-1Song.mp3", Music.class);
+		game.manager.load("SOUNDS/w1-2Song.mp3", Music.class);
+		game.manager.load("SOUNDS/themeSong.mp3", Music.class);
 		game.manager.load("PLearning.pack", TextureAtlas.class);
 		
 		//loads UI items

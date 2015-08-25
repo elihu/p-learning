@@ -38,22 +38,21 @@ public class WorldScene extends BaseScene {
 		screenBg = new Image(game.manager.get("UI/background.png", Texture.class));
 
 		helpTip=new Label("Select a world to play!",skin);
-		helpTip.setColor(Color.GREEN);
+		helpTip.setColor(Color.WHITE);
 		
 		table=new Table();//.debug();
-		playButton=new TextButton("PLAY W1", skin);
+		playButton=new TextButton(" PLAY W1 ", skin);
 		table.add(playButton).padBottom(10).fill();
 		table.row();
-		optionsButton=new TextButton("PLAY W2", skin);
+		optionsButton=new TextButton(" PLAY W2 ", skin);
 		table.add(optionsButton).padBottom(10).fill();
 		table.row();
 		table.row();
 		
 		
-		backButton=new TextButton("BACK", skin);
+		backButton=new TextButton(" BACK ", skin);
 		table.add(backButton).fill();
 		table.setPosition(400, -200);
-		
 		
 		
 		stage.addActor(screenBg);

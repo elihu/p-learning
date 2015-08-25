@@ -1,6 +1,7 @@
 package com.plearning.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -29,18 +30,22 @@ public class MenuScene extends BaseScene {
 	private Table table;
 	private Table options;
 	private Table exit;
+	
 	private CheckBox muteCheckBox;
 	private Slider volumeSlider;
 	private TextButton backButton;
 	private TextButton playButton;
 	private TextButton optionsButton;
+	private TextButton helpButton;
 	private TextButton exitButton;
 	private TextButton yesButton;
 	private TextButton noButton;
 	private boolean menuShown;
 	private boolean exitShown;
-	
 	private PlearningGame game;
+	
+	Sound tapSound;
+
 	
 	public MenuScene(PlearningGame plearning) {
 		super(plearning);
@@ -53,22 +58,25 @@ public class MenuScene extends BaseScene {
 		screenBg = new Image(game.manager.get("UI/background.png", Texture.class));
 		title= new Image(game.manager.get("UI/title.png", Texture.class));
 		helpTip=new Label("Solve the labyrinths!",skin);
-		helpTip.setColor(Color.GREEN);
+		helpTip.setColor(Color.WHITE);
 		
 		table=new Table();//.debug();
-		playButton=new TextButton("PLAY GAME", skin);
+		playButton=new TextButton(" PLAY GAME ", skin);
 		table.add(playButton).padBottom(10).fill();
 		table.row();
-		optionsButton=new TextButton("SOUND OPTIONS", skin);
+		optionsButton=new TextButton(" SOUND OPTIONS ", skin);
 		table.add(optionsButton).padBottom(10).fill();
 		table.row();
-		exitButton=new TextButton("EXIT GAME", skin);
+		helpButton=new TextButton(" HELP ", skin);
+		table.add(helpButton).padBottom(10).fill();
+		table.row();
+		exitButton=new TextButton(" EXIT GAME ", skin);
 		table.add(exitButton).fill();
 		table.setPosition(400, -200);
 		
 		options=new Table();//.debug();
 		Label soundTitle=new Label("SOUND OPTIONS",skin);
-		soundTitle.setColor(Color.GREEN);
+		soundTitle.setColor(Color.WHITE);
 		options.add(soundTitle).padBottom(25).colspan(2);
 		options.row();
 		muteCheckBox = new CheckBox(" MUTE ALL", skin);
@@ -78,7 +86,7 @@ public class MenuScene extends BaseScene {
 		volumeSlider = new Slider(0, 2, 0.2f, false, skin);
 		options.add(volumeSlider).padTop(10).padBottom(20);
 		options.row();
-		backButton=new TextButton("BACK", skin);
+		backButton=new TextButton(" BACK ", skin);
 		options.add(backButton).colspan(2).padTop(20);
 		options.setPosition(400, -200);
 		muteCheckBox.setChecked(!game.soundEnabled);
@@ -86,15 +94,17 @@ public class MenuScene extends BaseScene {
 		
 		exit=new Table();//.debug();
 		Label exitTitle=new Label("Confirm Exit",skin);
-		exitTitle.setColor(Color.GREEN);
+		exitTitle.setColor(Color.WHITE);
 		exit.add(exitTitle).padBottom(25).colspan(2);
 		exit.row();
-		yesButton=new TextButton("YES", skin);
+		yesButton=new TextButton(" YES ", skin);
 		exit.add(yesButton).padBottom(20);
-		noButton=new TextButton("NO", skin);
+		noButton=new TextButton(" NO ", skin);
 		exit.add(noButton).padBottom(20);
 		exit.setPosition(400, -200);
-		
+				
+		manager = game.manager;
+				
 		stage.addActor(screenBg);
 		stage.addActor(title);
 		stage.addActor(helpTip);
@@ -105,26 +115,49 @@ public class MenuScene extends BaseScene {
 		playButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+            	if(game.soundEnabled){
+    				tapSound.play();
+    			}
                 game.setScreen(new WorldScene(game));
             }
         });
 		optionsButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+            	if(game.soundEnabled){
+    				tapSound.play();
+    			}
                showMenu(false);
             }
         });
 		exitButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+            	if(game.soundEnabled){
+    				tapSound.play();
+    			}
                 showExit(true);
             	//Gdx.app.exit();
                 // or System.exit(0);
             }
         });
+        /*helpButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+            	if(game.soundEnabled){
+    				tapSound.play();
+    			}
+                showHelp(true);
+            	//Gdx.app.exit();
+                // or System.exit(0);
+            }
+        });*/
 		yesButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+            	if(game.soundEnabled){
+    				tapSound.play();
+    			}
                 Gdx.app.exit();
                 // or System.exit(0);
             }
@@ -132,6 +165,9 @@ public class MenuScene extends BaseScene {
 		noButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+            	if(game.soundEnabled){
+    				tapSound.play();
+    			}
                 showExit(!exitShown);
             }
         });
@@ -142,12 +178,18 @@ public class MenuScene extends BaseScene {
 		});
 		muteCheckBox.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
+				if(game.soundEnabled){
+					tapSound.play();
+				}
 				game.soundEnabled=!muteCheckBox.isChecked();
 			}
 		});
 		backButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+            	if(game.soundEnabled){
+    				tapSound.play();
+    			}
 	            showMenu(true);
             }
         });
@@ -156,7 +198,7 @@ public class MenuScene extends BaseScene {
 	@Override
 	public void show() {
 		title.setPosition(240-title.getWidth()/2, 770);
-		helpTip.setPosition(240-helpTip.getWidth()/2, 30);
+		helpTip.setPosition(240-helpTip.getWidth()/2, 550);
 		
 		MoveToAction actionMove = Actions.action(MoveToAction.class);
 		actionMove.setPosition(240-title.getWidth()/2, 620);
@@ -196,7 +238,7 @@ public class MenuScene extends BaseScene {
 		actionMove1.setInterpolation(Interpolation.swingIn);
 		
 		MoveToAction actionMove2 = Actions.action(MoveToAction.class);//in
-		actionMove2.setPosition(240, 490);
+		actionMove2.setPosition(240, 390);
 		actionMove2.setDuration(1.5f);
 		actionMove2.setInterpolation(Interpolation.swing);
 		
@@ -209,6 +251,8 @@ public class MenuScene extends BaseScene {
 		}
 		exitShown=flag;
 	}
+	
+	
 	@Override
 	public void render(float delta) {
 		// Clear the screen
@@ -217,6 +261,19 @@ public class MenuScene extends BaseScene {
 		// Show the loading screen
 		stage.act();
 		stage.draw();
+		
+		//Music and Sound
+		if(game.soundEnabled){
+			tapSound = manager.get("SOUNDS/pop.ogg", Sound.class);			
+		}		
+		if(game.soundEnabled){
+			playMusic();
+			music.setVolume(game.soundVolume);
+		}
+		else if (music!=null){
+			stopMusic();
+		}
+		
 		
 		//Table.drawDebug(stage);
 		super.render(delta);

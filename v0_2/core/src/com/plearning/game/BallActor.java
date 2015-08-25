@@ -8,21 +8,23 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.TimeUtils;
+import com.plearning.game.PlearningGameScene.Color;
 
 public class BallActor extends Actor {
 
 	AtlasRegion image;
 	
 	public static Vector2 startPosition = new Vector2(175, 630);
-	public static final float VELOCITY = 30f; // Velocidad del jugador
+	public static final float VELOCITY = 50f; // Velocidad del jugador
 	private boolean inFloor; // Indica si esta saltando o en el suelo respectivamente
 	private int direction;
 	private Rectangle body;
-	//private boolean out;
-	
+	private boolean stopped;
+	long time;
+	long timeOut;
 	
 	public static Vector<Vector2> ballsInPositions = new Vector<Vector2>();	
 	public static Vector<Vector2> ballsOutPositions = new Vector<Vector2>();
@@ -33,14 +35,45 @@ public class BallActor extends Actor {
 	static enum BallInOut{
 		IN, OUT
 	}
-	static enum BallType{
-		RED, YELLOW, GREEN, BLUE
-	}
+	/*static enum BallType{
+		RED, BLUE, GREEN, YELLOW
+	}*/
 	
-	BallType type;
+	Color type;
 	BallInOut inout;
-	
-	public BallActor(PlearningGame g, BallType o, BallInOut i, int p){
+	public BallActor(PlearningGame g, Color o, BallInOut i, int p, Vector2 pos){
+		game = g;
+		atlas = game.atlas;
+		type = o;
+		index = p;
+		inout = i;
+		
+		switch (type){
+		case RED:
+			image = atlas.findRegion("red");
+			break;
+		case YELLOW:
+			image = atlas.findRegion("yellow");
+			break;
+		case GREEN:
+			image = atlas.findRegion("green");
+			break;
+		case BLUE:
+			image = atlas.findRegion("blue");
+			break;
+		}
+		
+		setWidth(35);
+		setHeight(35);
+		
+		body = new Rectangle(pos.x, pos.y, 30, 30);
+		setPosition(body.x, body.y);
+		
+		inFloor = false;
+		direction = 1;
+		
+	}
+	public BallActor(PlearningGame g, Color o, BallInOut i, int p){
 		game = g;
 		atlas = game.atlas;
 		type = o;
@@ -72,8 +105,9 @@ public class BallActor extends Actor {
 		setWidth(35);
 		setHeight(35);
 		
-		body = new Rectangle(this.getX(), this.getY(), this.getWidth(), this.getHeight());
+		body = new Rectangle(this.getX(), this.getY(), this.getWidth()-5, this.getHeight()-5);
 		inFloor = false;
+		stopped = false;
 		direction = 1;
 	}
 	public static void initialize(){
@@ -127,18 +161,12 @@ public class BallActor extends Actor {
 			
 		}
 		if(inFloor){
-			translate(direction * VELOCITY * Gdx.graphics.getDeltaTime(), 0);
+			if(!stopped){
+				translate(direction * VELOCITY * Gdx.graphics.getDeltaTime(), 0);
+			}
 		
 			
 		}
-	}
-	public boolean overlaps (Vector3 touchPosition){
-		if(touchPosition.x >= this.getX() && touchPosition.x<=this.getX()+35)
-			if(touchPosition.y >= this.getY() && touchPosition.y<=this.getY()+35)
-				return true;
-		
-		return false;
-		
 	}
 	
 	public void translate(float x, float y) { // Mueve el personaje las x e y que le indiques
@@ -193,5 +221,41 @@ public class BallActor extends Actor {
 			this.setY(ballsOutPositions.get(index).y);
 		}
 		
+	}
+	public void changeDir(){
+		direction = direction*(-1);
+	}
+	public void changeColor(Color c){
+		type = c;
+		switch (type){
+		case RED:
+			image = atlas.findRegion("red");
+			break;
+		case YELLOW:
+			image = atlas.findRegion("yellow");
+			break;
+		case GREEN:
+			image = atlas.findRegion("green");
+			break;
+		case BLUE:
+			image = atlas.findRegion("blue");
+			break;
+		}
+	}
+	public void dirLeft(){
+		direction = -1;
+	}
+	
+	public void dirRight(){
+		direction = 1;
+	}
+	
+	public void stop(){
+		stopped = true;
+		time = TimeUtils.millis();
+	}
+	public void go(){
+		if(TimeUtils.timeSinceMillis(time)>1000)
+			stopped = false;
 	}
 }

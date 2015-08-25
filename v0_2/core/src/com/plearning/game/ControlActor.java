@@ -2,12 +2,16 @@ package com.plearning.game;
 
 import java.util.Vector;
 
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.plearning.game.PlearningGameScene.Color;
 
 public class ControlActor extends Actor {
 
@@ -17,25 +21,38 @@ public class ControlActor extends Actor {
 	TextureAtlas atlas;	
 	PlearningGame game;
 	
+	private Rectangle body;
+	
 	static enum controlType{
 		FLAG, IFLEFT, IFRIGHT, CREATOR, DESTRUCTOR, CONVERTER, DIRCHANGER
 	}
-	static enum controlColor{
+	/*static enum controlColor{
 		RED, BLUE, GREEN, YELLOW
-	}
+	}*/
 	controlType type;
-	controlColor color;
+	Color color;
 	
-	public ControlActor(PlearningGame g, controlType o, controlColor c, int position){
+	boolean activated;
+	
+	//Sound
+	AssetManager manager;
+	Sound tapSound;
+	
+	public ControlActor(PlearningGame g, controlType o, Color c, int position){
 		game = g;
 		atlas = game.atlas;
 		type = o;
 		index = position;
 		color = c;
+		activated = false;
+		manager = game.manager;
 		
 		
 		switch (type){
 		case FLAG:
+			if (game.soundEnabled){
+				tapSound =manager.get("SOUNDS/pop.ogg", Sound.class);
+			}
 			switch(color){
 			case RED:
 				image = atlas.findRegion("stopRed");
@@ -53,6 +70,9 @@ public class ControlActor extends Actor {
 			
 			break;
 		case IFLEFT:
+			if (game.soundEnabled){
+				tapSound =manager.get("SOUNDS/pop.ogg", Sound.class);
+			}
 			switch(color){
 			case RED:
 				image = atlas.findRegion("ifleftRed");
@@ -69,6 +89,9 @@ public class ControlActor extends Actor {
 			}
 			break;
 		case IFRIGHT:
+			if (game.soundEnabled){
+				tapSound =manager.get("SOUNDS/pop.ogg", Sound.class);
+			}
 			switch(color){
 			case RED:
 				image = atlas.findRegion("ifrightRed");
@@ -85,9 +108,15 @@ public class ControlActor extends Actor {
 			}
 			break;
 		case CREATOR:
+			if (game.soundEnabled){
+				tapSound =manager.get("SOUNDS/pop.ogg", Sound.class);
+			}
 			image = atlas.findRegion("duplicator");
 			break;
 		case DESTRUCTOR:
+			if (game.soundEnabled){
+				tapSound =manager.get("SOUNDS/pop.ogg", Sound.class);
+			}
 			switch(color){
 			case RED:
 				image = atlas.findRegion("deleteRed");
@@ -105,6 +134,9 @@ public class ControlActor extends Actor {
 			break;
 			
 		case CONVERTER:
+			if (game.soundEnabled){
+				tapSound =manager.get("SOUNDS/pop.ogg", Sound.class);
+			}
 			switch(color){
 			case RED:
 				image = atlas.findRegion("convertRed");
@@ -122,6 +154,9 @@ public class ControlActor extends Actor {
 			break;
 			
 		case DIRCHANGER:
+			if (game.soundEnabled){
+				tapSound =manager.get("SOUNDS/pop.ogg", Sound.class);
+			}
 			switch(color){
 			case RED:
 				image = atlas.findRegion("dirchangeRed");
@@ -141,10 +176,10 @@ public class ControlActor extends Actor {
 		
 		
 		
-		setPosition(controlsPositions.get(position).x,controlsPositions.get(position).y);
-		
+		super.setPosition(controlsPositions.get(position).x,controlsPositions.get(position).y);
 		setWidth(35);
 		setHeight(35);
+		body = new Rectangle(this.getX(), this.getY(), 1, 1);
 	}
 	public static void initialize(){
 		controlsPositions.add(new Vector2(70,175));
@@ -169,8 +204,73 @@ public class ControlActor extends Actor {
 		
 	}
 	
+	public void playTap(){
+		if (game.soundEnabled){
+			tapSound.play();
+		}
+	}
+	public void setPosition(float x, float y){
+		super.setPosition(x, y);
+		body.x = x;
+		body.y = y;
+	}
 	public void resetPosition(){
 		this.setX(controlsPositions.get(index).x);
 		this.setY(controlsPositions.get(index).y);
+		body.x = this.getX();
+		body.y = this.getY();
 	}
+	public void triggerAction(BallActor ball){
+		
+		switch (type){
+		case FLAG:
+			if(!activated && ball.type == color){
+				playTap();
+				ball.stop();
+				ball.go();
+				activated = true;
+				
+			}
+			break;
+		case IFLEFT:
+			if(!activated && ball.type == color){
+				playTap();
+				ball.dirLeft();
+				ball.translate(-20, 0);
+				activated = true;
+			}
+			break;
+		case IFRIGHT:
+			if(!activated && ball.type == color){
+				playTap();
+				ball.dirRight();
+				ball.translate(35, 0);
+				activated = true;
+			}
+			break;
+		case CREATOR:
+			playTap();
+			break;
+		case DESTRUCTOR:
+			if(ball.type == color){
+				playTap();
+				ball.changeDir();
+				ball.remove();
+			}
+			break;
+			
+		case CONVERTER:
+			playTap();
+			ball.changeColor(color);
+			break;
+			
+		case DIRCHANGER:
+			if(ball.type == color){
+				ball.changeDir();
+			}
+			break;
+		}
+		
+	}
+	public Rectangle getBody(){return body;}
 }

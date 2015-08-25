@@ -61,7 +61,7 @@ public class Labyrinth {
 
 	public void initialize(){
 		for(int i = iIni-1; i<= iFin+1 ; i++){
-			for(int j = jIni; j<= jFin; j+=2){
+			for(int j = jIni-2; j<= jFin; j+=2){
 				
 				if(i==free1.x && j== free1.y){}
 					else if(i==free2.x && j== free2.y){}
@@ -70,10 +70,21 @@ public class Labyrinth {
 								else if(i==free5.x && j== free5.y){}
 									else if(i==free6.x && j== free6.y){}
 										else if(i==free7.x && j== free7.y){}
-										
-				platforms.add(new Rectangle(i*scaleFactor, j*scaleFactor, 35, 35));	
+											else{
+												platforms.add(new Rectangle(i*scaleFactor, j*scaleFactor, 35, 35));	
+												System.out.println("i= "+i+ " j ="+j);
+												}
 			}
 		}
+		
+		for(int j = jIni-1; j<= jFin+1; j+=2){
+			platforms.add(new Rectangle((iIni-1)*scaleFactor, j*scaleFactor, 35, 35));	
+			System.out.println("i= "+ (iIni-1) + " j ="+j);
+			
+			platforms.add(new Rectangle((iFin+1)*scaleFactor, j*scaleFactor, 35, 35));	
+			System.out.println("i= "+ (iFin+1) + " j ="+j);
+		}
+		
 	}
 	
 	public Array<Rectangle> getPlatforms(){return platforms;}

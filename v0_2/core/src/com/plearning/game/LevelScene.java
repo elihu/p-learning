@@ -38,19 +38,19 @@ public class LevelScene extends BaseScene {
 		screenBg = new Image(game.manager.get("UI/background.png", Texture.class));
 
 		helpTip=new Label("Select a level to play!",skin);
-		helpTip.setColor(Color.GREEN);
+		helpTip.setColor(Color.WHITE);
 		
 		table=new Table();//.debug();
-		level1Button=new TextButton("LEVEL 1", skin);
+		level1Button=new TextButton(" LEVEL 1 ", skin);
 		table.add(level1Button).padBottom(10).fill();
 		table.row();
-		level2Button=new TextButton("LEVEL 2", skin);
+		level2Button=new TextButton(" LEVEL 2 ", skin);
 		table.add(level2Button).padBottom(10).fill();
 		table.row();
 		table.row();
 		
 		
-		backButton=new TextButton("BACK", skin);
+		backButton=new TextButton(" BACK ", skin);
 		table.add(backButton).fill();
 		table.setPosition(400, -200);
 		
@@ -72,6 +72,9 @@ public class LevelScene extends BaseScene {
 		level2Button.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+            	if(game.soundEnabled){
+            		stopMusic();    			
+            	}
                 game.setScreen(new PlearningGameScene(game));
             }
         });

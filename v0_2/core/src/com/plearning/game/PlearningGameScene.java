@@ -16,14 +16,12 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.TimeUtils;
 
 public class PlearningGameScene extends BaseScene {
 	AssetManager manager;
 	
 	AtlasRegion background;
-	//AtlasRegion ball;
-	
-	//AtlasRegion restart;
 	AtlasRegion door;
 	
 	//Actors and Stage
@@ -40,6 +38,8 @@ public class PlearningGameScene extends BaseScene {
 	int nControls = 7;
 	int nBallsIn = 4;
 	int nBallsOut = 3;
+	int timeOut = 30000;
+	boolean pauseState;
 	
 	boolean [] controlsPushed = {false, false, false, false, false, false, false};
 	Vector3 touchPosition;
@@ -51,13 +51,17 @@ public class PlearningGameScene extends BaseScene {
 	TextureAtlas atlas;
 	
 	Sound tapSound;
-	Music music;
 	
 	PlearningGame game;
 	Labyrinth labyrinth;
 	int scaleFactorX;
 	int scaleFactorY;
 	
+	private long time;
+	
+	static enum Color{
+		RED, BLUE, GREEN, YELLOW
+	}
 	static enum GameState{
 		INIT, CONTROLS, PLAYING, PAUSE, FINISH, OPTIONS, START
 	}
@@ -98,13 +102,13 @@ public class PlearningGameScene extends BaseScene {
 		//Here we choose the controls
 		/* watch out here --> int nControls = 7; */
 		controls = new Vector<ControlActor>();
-		controls.add(new ControlActor(game, ControlActor.controlType.DESTRUCTOR, ControlActor.controlColor.YELLOW, 0));
-		controls.add(new ControlActor(game, ControlActor.controlType.IFLEFT, ControlActor.controlColor.YELLOW, 1));
-		controls.add(new ControlActor(game, ControlActor.controlType.DESTRUCTOR, ControlActor.controlColor.RED, 2));
-		controls.add(new ControlActor(game, ControlActor.controlType.CREATOR, ControlActor.controlColor.BLUE, 3));
-		controls.add(new ControlActor(game, ControlActor.controlType.CONVERTER, ControlActor.controlColor.BLUE, 4));
-		controls.add(new ControlActor(game, ControlActor.controlType.IFRIGHT, ControlActor.controlColor.BLUE, 5));
-		controls.add(new ControlActor(game, ControlActor.controlType.DESTRUCTOR, ControlActor.controlColor.BLUE, 6));
+		controls.add(new ControlActor(game, ControlActor.controlType.FLAG, Color.BLUE, 0));
+		controls.add(new ControlActor(game, ControlActor.controlType.IFLEFT, Color.YELLOW, 1));
+		controls.add(new ControlActor(game, ControlActor.controlType.IFLEFT, Color.BLUE, 2));
+		controls.add(new ControlActor(game, ControlActor.controlType.CREATOR, Color.BLUE, 3));
+		controls.add(new ControlActor(game, ControlActor.controlType.CONVERTER, Color.BLUE, 4));
+		controls.add(new ControlActor(game, ControlActor.controlType.IFRIGHT, Color.BLUE, 5));
+		controls.add(new ControlActor(game, ControlActor.controlType.DESTRUCTOR, Color.BLUE, 6));
 		
 		//Here we choose the balls in and out
 		ballsIn = new Vector<BallActor>();
@@ -115,14 +119,14 @@ public class PlearningGameScene extends BaseScene {
 			 * 		int nBallsOut = 3;
 			 * 
 			*/
-		ballsIn.addElement(new BallActor(game, BallActor.BallType.BLUE, BallActor.BallInOut.IN, 0));
-		ballsIn.addElement(new BallActor(game, BallActor.BallType.RED, BallActor.BallInOut.IN, 1));
-		ballsIn.addElement(new BallActor(game, BallActor.BallType.RED, BallActor.BallInOut.IN, 2));
-		ballsIn.addElement(new BallActor(game, BallActor.BallType.YELLOW, BallActor.BallInOut.IN, 3));
+		ballsIn.addElement(new BallActor(game, Color.GREEN, BallActor.BallInOut.IN, 0));
+		ballsIn.addElement(new BallActor(game, Color.RED, BallActor.BallInOut.IN, 1));
+		ballsIn.addElement(new BallActor(game, Color.RED, BallActor.BallInOut.IN, 2));
+		ballsIn.addElement(new BallActor(game, Color.YELLOW, BallActor.BallInOut.IN, 3));
 		
-		ballsOut.addElement(new BallActor(game, BallActor.BallType.BLUE, BallActor.BallInOut.OUT, 0));
-		ballsOut.addElement(new BallActor(game, BallActor.BallType.BLUE, BallActor.BallInOut.OUT, 1));
-		ballsOut.addElement(new BallActor(game, BallActor.BallType.BLUE, BallActor.BallInOut.OUT, 2));
+		ballsOut.addElement(new BallActor(game, Color.BLUE, BallActor.BallInOut.OUT, 0));
+		ballsOut.addElement(new BallActor(game, Color.BLUE, BallActor.BallInOut.OUT, 1));
+		ballsOut.addElement(new BallActor(game, Color.BLUE, BallActor.BallInOut.OUT, 2));
 		
 		touchPosition = new Vector3(0,0,0);
 		controlPosition = new Vector2(0,0);
@@ -132,11 +136,13 @@ public class PlearningGameScene extends BaseScene {
 		//Sound and Music
 		if(game.soundEnabled){
 			tapSound = manager.get("SOUNDS/pop.ogg", Sound.class);
-			music = manager.get("SOUNDS/music.mp3", Music.class);
-			music.setLooping(true);
+			stopMusic();
+			changeMusic(manager.get("SOUNDS/w1-1Song.mp3", Music.class));
 			
-		}
-		
+		} 
+		//timer control
+		time = TimeUtils.millis()+timeOut;
+		//---
 		stage.addActor(restart);
 		stage.addActor(options);
 		stage.addActor(play);
@@ -169,16 +175,35 @@ public class PlearningGameScene extends BaseScene {
 		play.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-            	gameState = GameState.START;
+            	if(!pauseState){
+            		gameState = GameState.START;
+	            	//Sound and Music
+	        		if(game.soundEnabled){
+	        			stopMusic();
+	        			changeMusic(manager.get("SOUNDS/w1-2Song.mp3", Music.class));
+	        		}
+	        	}
+            	else{
+            		pauseState = false;           		
+            		gameState = GameState.PLAYING;
+            	}
             }
         });
 		pause.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-            	gameState = GameState.PAUSE;
+            	if(pauseState){
+            		pauseState = false;
+            		gameState = GameState.PLAYING;
+            	}
+            	else{
+            		pauseState = true;
+            		gameState = GameState.PAUSE;
+            	}
             }
         });
 		
+		pauseState = false;
 		/*Static initializations*/
 		labyrinth.initialize();
 		//-----------------------
@@ -189,15 +214,13 @@ public class PlearningGameScene extends BaseScene {
 			touchPosition.set(Gdx.input.getX(), Gdx.input.getY(), 0);
 			camera.unproject(touchPosition);
 
-			if(game.soundEnabled){
-				tapSound.play();
-			}
 			
 			//Trying to catch touched positions
 			System.out.println("Touched at: "+ gridValueX(touchPosition.x)+", "+gridValueY(touchPosition.y));
 			
 			for(int i=0;i<nControls;i++){
 				if(controlsPushed[i]){
+					controls.get(i).playTap();
 					controlPosition.x = ungridValueX(touchPosition.x);
 					controlPosition.y = ungridValueY(touchPosition.y);
 					if(labyrinth.validatePosition(new Vector2 (gridValueX(controlPosition.x), gridValueY(controlPosition.y))))
@@ -205,6 +228,7 @@ public class PlearningGameScene extends BaseScene {
 					controlsPushed[i] = false;
 				}
 				else if(controls.get(i).overlaps(touchPosition)){
+					controls.get(i).playTap();
 					controlsPushed[i] = true;
 				}
 			}
@@ -214,42 +238,79 @@ public class PlearningGameScene extends BaseScene {
 		scaleFactorX = game.scaleFactorX;
 		scaleFactorY = game.scaleFactorY;
 		
-		
 		if(gameState == GameState.INIT){
 			if(game.soundEnabled){
-				music.stop();
-				music.play();
+				playMusic();
 				music.setVolume(game.soundVolume);
 			}
 			
 			pause.setVisible(false);
-			
-			for(int i=0; i< nControls; i++){
-				controls.get(i).resetPosition();
-			}
-			for(int i=0; i< nBallsIn; i++){
-				ballsIn.get(i).resetPosition();
-			}
-			
 			gameState = GameState.CONTROLS;
 		}
 		else if(gameState == GameState.CONTROLS){
 			captureTouch();
+			if(time <= TimeUtils.millis()){
+				if(game.soundEnabled){
+        			stopMusic();
+        			changeMusic(manager.get("SOUNDS/w1-2Song.mp3", Music.class));
+        		}
+				gameState = GameState.START;
+			}
 		}
 		else if(gameState == GameState.PAUSE){
+			play.setVisible(true);
+				
 		}
 		else if(gameState == GameState.START){
+			/*for(BallActor ball: ballsIn){
+				ball.start();
+			}*/
 			ballsIn.get(0).start();
 			gameState = GameState.PLAYING;
 		}
 		else if(gameState == GameState.PLAYING){
 			pause.setVisible(true);
+			play.setVisible(false);
+			if(game.soundEnabled){
+				playMusic();
+				music.setVolume(game.soundVolume);
+			}
+			/*for(BallActor ball: ballsIn){
+				ball.update(labyrinth.getPlatforms());
+			}*/
 			ballsIn.get(0).update(labyrinth.getPlatforms());
-			//gameState = GameState.CONTROLS;
+			for(ControlActor control: controls){
+				
+				/*for(BallActor ball: ballsIn){
+					
+					if(ball.collide(control.getBody())){
+						if(control.type == ControlActor.controlType.CREATOR){
+							nBallsIn++;
+							ballsIn.add(new BallActor(game, ballsIn.get(0).type, BallActor.BallInOut.IN, 4, new Vector2(control.getX()+35,control.getY())));
+							stage.addActor(ballsIn.lastElement());
+						}
+						control.triggerAction(ball);
+						
+					}
+					
+				}*/
+				
+				for(BallActor ball: ballsIn){
+					
+					if(ball.collide(control.getBody())){
+						if(control.type == ControlActor.controlType.CREATOR){
+							nBallsIn++;
+							ballsIn.add(new BallActor(game, ballsIn.get(0).type, BallActor.BallInOut.IN, 4, new Vector2(control.getX()+35,control.getY())));
+							stage.addActor(ballsIn.lastElement());
+						}
+						control.triggerAction(ballsIn.get(0));
+					}	
+				}
+			}
 		}
 		else if(gameState == GameState.FINISH){
 			if(game.soundEnabled){
-				music.stop();
+				stopMusic();
 			}
 			game.setScreen(new MenuScene(game));
 		}
@@ -280,24 +341,17 @@ public class PlearningGameScene extends BaseScene {
 		batch.draw(background, 0, 0);
 		batch.enableBlending();
 		
-		batch.draw(door, 175, 630);
-		batch.draw(door, 420, 140);
 		
-		/*batch.draw(ball, 175, 700);
-		batch.draw(ball, 245, 735);
-		batch.draw(ball, 350, 700);
-		batch.draw(ball, 420, 735);*/
 				
 		batch.end();
 		
 		labyrinth.draw();
 	}
 	private void resetScene(){
-		//-- depurar
-		System.out.println("Reset");
-		
-		gameState = GameState.INIT;
-		
+		if(game.soundEnabled){
+			stopMusic();
+		}
+		game.setScreen(new PlearningGameScene(game));
 	}
 
 	@Override
