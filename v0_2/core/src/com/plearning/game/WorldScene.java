@@ -23,8 +23,8 @@ public class WorldScene extends BaseScene {
 	private Label helpTip;
 	private Table table;
 	private TextButton backButton;
-	private TextButton playButton;
-	private TextButton optionsButton;
+	private TextButton w1Button;
+	private TextButton w2Button;
 	private PlearningGame game;
 	
 	public WorldScene(PlearningGame plearning) {
@@ -41,11 +41,11 @@ public class WorldScene extends BaseScene {
 		helpTip.setColor(Color.WHITE);
 		
 		table=new Table();//.debug();
-		playButton=new TextButton(" PLAY W1 ", skin);
-		table.add(playButton).padBottom(10).fill();
+		w1Button=new TextButton(" PLAY W1 ", skin);
+		table.add(w1Button).padBottom(10).fill();
 		table.row();
-		optionsButton=new TextButton(" PLAY W2 ", skin);
-		table.add(optionsButton).padBottom(10).fill();
+		w2Button=new TextButton(" PLAY W2 ", skin);
+		table.add(w2Button).padBottom(10).fill();
 		table.row();
 		table.row();
 		
@@ -61,17 +61,17 @@ public class WorldScene extends BaseScene {
 		stage.addActor(table);
 		
 		
-		playButton.addListener(new ClickListener(){
+		w1Button.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new LevelScene(game));
+                game.setScreen(new LevelScene(game, "background-w1"));
             }
         });
 		
-		optionsButton.addListener(new ClickListener(){
+		w2Button.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new LevelScene(game));
+                game.setScreen(new LevelScene(game, "background-w2"));
             }
         });
 		

@@ -25,18 +25,24 @@ public class Labyrinth {
 	//private final Random rand = new Random();
 	PlearningGame game;
 	SpriteBatch batch;
-
+	String world;
 	
 	float scaleFactor = 35;
 	
 	AtlasRegion floor; //temporal hasta convertirlo en clase y comprobar overlaps
 	public Array<Rectangle> platforms = new Array<Rectangle>(); // Un array que contiene todas las plataformas del juego
 	
-	public Labyrinth(PlearningGame plearning, AssetManager manager){
+	public Labyrinth(PlearningGame plearning, AssetManager manager, String w){
 		game = plearning;
 		batch = game.batch;
+		world = w;
 		TextureAtlas atlas = manager.get("PLearning.pack", TextureAtlas.class);
-		floor = atlas.findRegion("floor-w1");
+		if(world.equalsIgnoreCase("background-w1")){
+			floor = atlas.findRegion("floor-w1");
+		}
+		else if(world.equalsIgnoreCase("background-w2")){
+			floor = atlas.findRegion("floor-w2");
+		}
 	}
 	
 	public void draw(){

@@ -27,10 +27,12 @@ public class LevelScene extends BaseScene {
 	private TextButton level2Button;
 	private PlearningGame game;
 	
-	public LevelScene(PlearningGame plearning) {
+	private String world;
+	
+	public LevelScene(PlearningGame plearning, String w) {
 		super(plearning);
 		game = plearning;
-		
+		world = w;
 		stage = new Stage(game.viewport);
 		Gdx.input.setInputProcessor(stage);
 		skin = new Skin(Gdx.files.internal("UI/uiskin.json"));
@@ -65,7 +67,7 @@ public class LevelScene extends BaseScene {
 		level1Button.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new PlearningGameScene(game));
+                game.setScreen(new PlearningGameScene(game, world));
             }
         });
 		
@@ -75,7 +77,7 @@ public class LevelScene extends BaseScene {
             	if(game.soundEnabled){
             		stopMusic();    			
             	}
-                game.setScreen(new PlearningGameScene(game));
+                game.setScreen(new PlearningGameScene(game, world));
             }
         });
 		

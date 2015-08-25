@@ -20,7 +20,7 @@ import com.badlogic.gdx.utils.TimeUtils;
 
 public class PlearningGameScene extends BaseScene {
 	AssetManager manager;
-	
+	String world;
 	AtlasRegion background;
 	AtlasRegion door;
 	
@@ -70,10 +70,10 @@ public class PlearningGameScene extends BaseScene {
 	
 	
 	
-	public PlearningGameScene (PlearningGame plearning) {
+	public PlearningGameScene (PlearningGame plearning, String w) {
 		super(plearning);
 		game = plearning;
-		
+		world = w;
 		/*Static initializations*/
 		ControlActor.initialize();
 		BallActor.initialize();
@@ -89,7 +89,7 @@ public class PlearningGameScene extends BaseScene {
 		
 		scaleFactorX = game.scaleFactorX;
 		scaleFactorY = game.scaleFactorY;
-		background = atlas.findRegion("background-w1");
+		background = atlas.findRegion(world);
 		
 		//ball = atlas.findRegion("blue");
 		door = atlas.findRegion("door");
@@ -132,7 +132,7 @@ public class PlearningGameScene extends BaseScene {
 		controlPosition = new Vector2(0,0);
 		
 		
-		labyrinth = new Labyrinth (game, manager);
+		labyrinth = new Labyrinth (game, manager, world);
 		//Sound and Music
 		if(game.soundEnabled){
 			tapSound = manager.get("SOUNDS/pop.ogg", Sound.class);
@@ -351,7 +351,7 @@ public class PlearningGameScene extends BaseScene {
 		if(game.soundEnabled){
 			stopMusic();
 		}
-		game.setScreen(new PlearningGameScene(game));
+		game.setScreen(new PlearningGameScene(game, world));
 	}
 
 	@Override
