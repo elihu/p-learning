@@ -137,8 +137,6 @@ public class MenuScene extends BaseScene {
     				tapSound.play();
     			}
                 showExit(true);
-            	//Gdx.app.exit();
-                // or System.exit(0);
             }
         });
         /*helpButton.addListener(new ClickListener(){

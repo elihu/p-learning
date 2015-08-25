@@ -6,6 +6,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -78,6 +79,7 @@ public class LoadingScreen extends ScreenAdapter {
 		game.manager.load("SOUNDS/w1-2Song.mp3", Music.class);
 		game.manager.load("SOUNDS/themeSong.mp3", Music.class);
 		game.manager.load("PLearning.pack", TextureAtlas.class);
+		game.manager.load("UI/font.fnt", BitmapFont.class);
 		
 		//loads UI items
 		game.manager.load("UI/background.png", Texture.class);

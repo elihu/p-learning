@@ -8,6 +8,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
@@ -15,6 +16,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.TimeUtils;
 
@@ -26,6 +29,9 @@ public class PlearningGameScene extends BaseScene {
 	
 	//Actors and Stage
 	Stage stage;
+	
+	
+	
 	OptionActor options;
 	OptionActor restart;
 	OptionActor play;
@@ -38,7 +44,7 @@ public class PlearningGameScene extends BaseScene {
 	int nControls = 7;
 	int nBallsIn = 4;
 	int nBallsOut = 3;
-	int timeOut = 30000;
+	
 	boolean pauseState;
 	
 	boolean [] controlsPushed = {false, false, false, false, false, false, false};
@@ -57,7 +63,11 @@ public class PlearningGameScene extends BaseScene {
 	int scaleFactorX;
 	int scaleFactorY;
 	
-	private long time;
+	//Timer countdown code
+	long time;
+	long timeOut = 120000;
+	LabelStyle style;
+	Label timer;
 	
 	static enum Color{
 		RED, BLUE, GREEN, YELLOW
@@ -91,13 +101,19 @@ public class PlearningGameScene extends BaseScene {
 		scaleFactorY = game.scaleFactorY;
 		background = atlas.findRegion(world);
 		
-		//ball = atlas.findRegion("blue");
 		door = atlas.findRegion("door");
 		
 		options = new OptionActor(game, OptionActor.optionType.OPTIONS);
 		restart = new OptionActor(game, OptionActor.optionType.RESTART);
 		play = new OptionActor(game, OptionActor.optionType.PLAY);
 		pause = new OptionActor(game, OptionActor.optionType.PAUSE);
+		
+		style = new LabelStyle();
+		style.font = game.manager.get("UI/font.fnt", BitmapFont.class);
+		style.fontColor = com.badlogic.gdx.graphics.Color.WHITE;
+	
+		timer = new Label(""+(timeOut*0.001), style);
+		timer.setPosition(50, 750);
 		
 		//Here we choose the controls
 		/* watch out here --> int nControls = 7; */
@@ -141,12 +157,13 @@ public class PlearningGameScene extends BaseScene {
 			
 		} 
 		//timer control
-		time = TimeUtils.millis()+timeOut;
+		time = TimeUtils.millis();
 		//---
 		stage.addActor(restart);
 		stage.addActor(options);
 		stage.addActor(play);
 		stage.addActor(pause);
+		stage.addActor(timer);
 		
 		for(int i=0; i<nControls;i++){
 			stage.addActor(controls.get(i));
@@ -249,7 +266,16 @@ public class PlearningGameScene extends BaseScene {
 		}
 		else if(gameState == GameState.CONTROLS){
 			captureTouch();
-			if(time <= TimeUtils.millis()){
+			
+			 if(TimeUtils.millis() - time > 1000){
+				//Esta parte se ejecutará cada segundo.
+				time = TimeUtils.millis();
+				timeOut -= 1000;
+			}
+			
+			
+			timer.setText(""+(int)(timeOut*0.001f));
+			if(timeOut <= 0){				
 				if(game.soundEnabled){
         			stopMusic();
         			changeMusic(manager.get("SOUNDS/w1-2Song.mp3", Music.class));
@@ -336,14 +362,13 @@ public class PlearningGameScene extends BaseScene {
 		batch.setProjectionMatrix(camera.combined);
 		
 		batch.begin();
-
+		
 		batch.disableBlending();
 		batch.draw(background, 0, 0);
 		batch.enableBlending();
-		
-		
 				
 		batch.end();
+		
 		
 		labyrinth.draw();
 	}

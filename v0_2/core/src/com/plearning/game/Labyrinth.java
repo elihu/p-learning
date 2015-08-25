@@ -9,7 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
 public class Labyrinth {
-	//Free Blocks Determinist
+	//Free Blocks Determinism
 	private final Vector2 free1 = new Vector2(8, 5);
 	private final Vector2 free2 = new Vector2(6, 7);
 	private final Vector2 free3 = new Vector2(12, 9);
@@ -22,14 +22,13 @@ public class Labyrinth {
 	private final int iFin = 12;
 	private final int jIni = 5;
 	private final int jFin = 17;
-	//private final Random rand = new Random();
 	PlearningGame game;
 	SpriteBatch batch;
 	String world;
 	
 	float scaleFactor = 35;
 	
-	AtlasRegion floor; //temporal hasta convertirlo en clase y comprobar overlaps
+	AtlasRegion floor; 
 	public Array<Rectangle> platforms = new Array<Rectangle>(); // Un array que contiene todas las plataformas del juego
 	
 	public Labyrinth(PlearningGame plearning, AssetManager manager, String w){

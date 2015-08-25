@@ -26,9 +26,7 @@ public class ControlActor extends Actor {
 	static enum controlType{
 		FLAG, IFLEFT, IFRIGHT, CREATOR, DESTRUCTOR, CONVERTER, DIRCHANGER
 	}
-	/*static enum controlColor{
-		RED, BLUE, GREEN, YELLOW
-	}*/
+	
 	controlType type;
 	Color color;
 	
