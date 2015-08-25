@@ -5,267 +5,274 @@ filter: Nearest,Nearest
 repeat: none
 background-w2
   rotate: false
-  xy: 1, 217
+  xy: 1, 218
   size: 490, 805
   orig: 490, 805
   offset: 0, 0
   index: -1
 background-w1
   rotate: false
-  xy: 493, 217
+  xy: 493, 218
   size: 490, 805
   orig: 490, 805
   offset: 0, 0
   index: -1
 pause
   rotate: false
-  xy: 1, 145
+  xy: 1, 146
   size: 70, 70
   orig: 70, 70
   offset: 0, 0
   index: -1
 restart
   rotate: false
-  xy: 1, 73
+  xy: 1, 74
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: -1
+speed
+  rotate: false
+  xy: 73, 146
   size: 70, 70
   orig: 70, 70
   offset: 0, 0
   index: -1
 play
   rotate: false
-  xy: 73, 145
+  xy: 1, 2
   size: 70, 70
   orig: 70, 70
   offset: 0, 0
   index: -1
 options
   rotate: false
-  xy: 1, 1
+  xy: 73, 74
   size: 70, 70
   orig: 70, 70
   offset: 0, 0
   index: -1
 deleteBlue
   rotate: false
-  xy: 985, 987
+  xy: 985, 988
   size: 35, 35
   orig: 35, 35
   offset: 0, 0
   index: -1
 dirchangeGreen
   rotate: false
-  xy: 73, 108
+  xy: 145, 181
   size: 35, 35
   orig: 35, 35
   offset: 0, 0
   index: -1
 red
   rotate: false
-  xy: 145, 180
-  size: 35, 35
-  orig: 35, 35
-  offset: 0, 0
-  index: -1
-stopGreen
-  rotate: false
-  xy: 985, 950
-  size: 35, 35
-  orig: 35, 35
-  offset: 0, 0
-  index: -1
-deleteGreen
-  rotate: false
-  xy: 73, 71
-  size: 35, 35
-  orig: 35, 35
-  offset: 0, 0
-  index: -1
-blue
-  rotate: false
-  xy: 182, 180
-  size: 35, 35
-  orig: 35, 35
-  offset: 0, 0
-  index: -1
-convertGreen
-  rotate: false
-  xy: 985, 913
-  size: 35, 35
-  orig: 35, 35
-  offset: 0, 0
-  index: -1
-green
-  rotate: false
-  xy: 73, 34
-  size: 35, 35
-  orig: 35, 35
-  offset: 0, 0
-  index: -1
-floor-w1
-  rotate: false
-  xy: 219, 180
-  size: 35, 35
-  orig: 35, 35
-  offset: 0, 0
-  index: -1
-floor-w2
-  rotate: false
-  xy: 985, 876
-  size: 35, 35
-  orig: 35, 35
-  offset: 0, 0
-  index: -1
-ifrightGreen
-  rotate: false
-  xy: 256, 180
-  size: 35, 35
-  orig: 35, 35
-  offset: 0, 0
-  index: -1
-ifrightRed
-  rotate: false
-  xy: 985, 839
-  size: 35, 35
-  orig: 35, 35
-  offset: 0, 0
-  index: -1
-stopRed
-  rotate: false
-  xy: 293, 180
-  size: 35, 35
-  orig: 35, 35
-  offset: 0, 0
-  index: -1
-door
-  rotate: false
-  xy: 985, 802
-  size: 35, 35
-  orig: 35, 35
-  offset: 0, 0
-  index: -1
-deleteYellow
-  rotate: false
-  xy: 330, 180
-  size: 35, 35
-  orig: 35, 35
-  offset: 0, 0
-  index: -1
-ifleftBlue
-  rotate: false
-  xy: 985, 765
-  size: 35, 35
-  orig: 35, 35
-  offset: 0, 0
-  index: -1
-dirchangeRed
-  rotate: false
-  xy: 367, 180
-  size: 35, 35
-  orig: 35, 35
-  offset: 0, 0
-  index: -1
-yellow
-  rotate: false
-  xy: 985, 728
-  size: 35, 35
-  orig: 35, 35
-  offset: 0, 0
-  index: -1
-deleteRed
-  rotate: false
-  xy: 404, 180
-  size: 35, 35
-  orig: 35, 35
-  offset: 0, 0
-  index: -1
-ifrightBlue
-  rotate: false
-  xy: 985, 691
-  size: 35, 35
-  orig: 35, 35
-  offset: 0, 0
-  index: -1
-convertYellow
-  rotate: false
-  xy: 441, 180
-  size: 35, 35
-  orig: 35, 35
-  offset: 0, 0
-  index: -1
-ifleftRed
-  rotate: false
-  xy: 985, 654
-  size: 35, 35
-  orig: 35, 35
-  offset: 0, 0
-  index: -1
-dirchangeYellow
-  rotate: false
-  xy: 478, 180
-  size: 35, 35
-  orig: 35, 35
-  offset: 0, 0
-  index: -1
-ifrightYellow
-  rotate: false
-  xy: 985, 617
-  size: 35, 35
-  orig: 35, 35
-  offset: 0, 0
-  index: -1
-stopBlue
-  rotate: false
-  xy: 515, 180
-  size: 35, 35
-  orig: 35, 35
-  offset: 0, 0
-  index: -1
-ifleftYellow
-  rotate: false
-  xy: 985, 580
-  size: 35, 35
-  orig: 35, 35
-  offset: 0, 0
-  index: -1
-stopYellow
-  rotate: false
-  xy: 552, 180
-  size: 35, 35
-  orig: 35, 35
-  offset: 0, 0
-  index: -1
-dirchangeBlue
-  rotate: false
-  xy: 985, 543
-  size: 35, 35
-  orig: 35, 35
-  offset: 0, 0
-  index: -1
-convertRed
-  rotate: false
-  xy: 589, 180
-  size: 35, 35
-  orig: 35, 35
-  offset: 0, 0
-  index: -1
-convertBlue
-  rotate: false
-  xy: 985, 506
-  size: 35, 35
-  orig: 35, 35
-  offset: 0, 0
-  index: -1
-ifleftGreen
-  rotate: false
-  xy: 626, 180
+  xy: 73, 37
   size: 35, 35
   orig: 35, 35
   offset: 0, 0
   index: -1
 duplicator
   rotate: false
-  xy: 985, 470
+  xy: 73, 1
   size: 35, 34
   orig: 35, 34
+  offset: 0, 0
+  index: -1
+stopGreen
+  rotate: false
+  xy: 985, 951
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+deleteGreen
+  rotate: false
+  xy: 145, 144
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+blue
+  rotate: false
+  xy: 182, 181
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+convertGreen
+  rotate: false
+  xy: 985, 914
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+green
+  rotate: false
+  xy: 145, 107
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+floor-w1
+  rotate: false
+  xy: 182, 144
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+floor-w2
+  rotate: false
+  xy: 219, 181
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+ifrightGreen
+  rotate: false
+  xy: 985, 877
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+ifrightRed
+  rotate: false
+  xy: 182, 107
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+stopRed
+  rotate: false
+  xy: 219, 144
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+door
+  rotate: false
+  xy: 256, 181
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+deleteYellow
+  rotate: false
+  xy: 985, 840
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+ifleftBlue
+  rotate: false
+  xy: 219, 107
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+dirchangeRed
+  rotate: false
+  xy: 256, 144
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+yellow
+  rotate: false
+  xy: 293, 181
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+deleteRed
+  rotate: false
+  xy: 985, 803
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+ifrightBlue
+  rotate: false
+  xy: 256, 107
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+convertYellow
+  rotate: false
+  xy: 293, 144
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+ifleftRed
+  rotate: false
+  xy: 330, 181
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+dirchangeYellow
+  rotate: false
+  xy: 985, 766
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+ifrightYellow
+  rotate: false
+  xy: 293, 107
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+stopBlue
+  rotate: false
+  xy: 330, 144
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+ifleftYellow
+  rotate: false
+  xy: 367, 181
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+stopYellow
+  rotate: false
+  xy: 985, 729
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+dirchangeBlue
+  rotate: false
+  xy: 330, 107
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+convertRed
+  rotate: false
+  xy: 367, 144
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+convertBlue
+  rotate: false
+  xy: 404, 181
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+ifleftGreen
+  rotate: false
+  xy: 985, 692
+  size: 35, 35
+  orig: 35, 35
   offset: 0, 0
   index: -1
