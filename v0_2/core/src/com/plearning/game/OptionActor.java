@@ -19,7 +19,7 @@ public class OptionActor extends Actor {
 	PlearningGame game;
 	
 	static enum optionType{
-		PLAY, PAUSE, OPTIONS, RESTART
+		PLAY, PAUSE, OPTIONS, RESTART, SPEED
 	}
 	
 	optionType type;
@@ -32,6 +32,10 @@ public class OptionActor extends Actor {
 		switch (type){
 		case PLAY:
 			image = atlas.findRegion("play");
+			setPosition(playPosition.x,playPosition.y);
+			break;
+		case SPEED:
+			image = atlas.findRegion("speed");
 			setPosition(playPosition.x,playPosition.y);
 			break;
 		case PAUSE:

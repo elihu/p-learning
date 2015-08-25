@@ -18,7 +18,7 @@ public class BallActor extends Actor {
 	AtlasRegion image;
 	
 	public static Vector2 startPosition = new Vector2(175, 630);
-	public static final float VELOCITY = 50f; // Velocidad del jugador
+	public static float VELOCITY = 50f; // Velocidad del jugador
 	private boolean inFloor; // Indica si esta saltando o en el suelo respectivamente
 	private int direction;
 	private Rectangle body;

@@ -36,6 +36,9 @@ public class PlearningGameScene extends BaseScene {
 	OptionActor restart;
 	OptionActor play;
 	OptionActor pause;
+	OptionActor speed;
+	
+	private boolean speeded;
 	
 	Vector<ControlActor> controls;
 	Vector<BallActor> ballsIn;
@@ -107,6 +110,9 @@ public class PlearningGameScene extends BaseScene {
 		restart = new OptionActor(game, OptionActor.optionType.RESTART);
 		play = new OptionActor(game, OptionActor.optionType.PLAY);
 		pause = new OptionActor(game, OptionActor.optionType.PAUSE);
+		speed = new OptionActor(game, OptionActor.optionType.SPEED);
+		
+		speeded = false;
 		
 		style = new LabelStyle();
 		style.font = game.manager.get("UI/font.fnt", BitmapFont.class);
@@ -163,6 +169,7 @@ public class PlearningGameScene extends BaseScene {
 		stage.addActor(options);
 		stage.addActor(play);
 		stage.addActor(pause);
+		stage.addActor(speed);
 		stage.addActor(timer);
 		
 		for(int i=0; i<nControls;i++){
@@ -187,6 +194,20 @@ public class PlearningGameScene extends BaseScene {
             @Override
             public void clicked(InputEvent event, float x, float y) {
             	gameState = GameState.FINISH;
+            }
+        });
+		
+		speed.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+				if(speeded){
+					BallActor.VELOCITY *= 0.5f;
+					speeded = false;
+            	}
+				else{
+					BallActor.VELOCITY *= 2;
+					speeded = true;
+				}
             }
         });
 		play.addListener(new ClickListener(){
@@ -262,6 +283,7 @@ public class PlearningGameScene extends BaseScene {
 			}
 			
 			pause.setVisible(false);
+			speed.setVisible(false);
 			gameState = GameState.CONTROLS;
 		}
 		else if(gameState == GameState.CONTROLS){
@@ -285,6 +307,7 @@ public class PlearningGameScene extends BaseScene {
 		}
 		else if(gameState == GameState.PAUSE){
 			play.setVisible(true);
+			speed.setVisible(false);
 				
 		}
 		else if(gameState == GameState.START){
@@ -296,7 +319,9 @@ public class PlearningGameScene extends BaseScene {
 		}
 		else if(gameState == GameState.PLAYING){
 			pause.setVisible(true);
+			speed.setVisible(true);
 			play.setVisible(false);
+			
 			if(game.soundEnabled){
 				playMusic();
 				music.setVolume(game.soundVolume);
