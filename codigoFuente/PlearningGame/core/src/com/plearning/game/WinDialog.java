@@ -27,7 +27,8 @@ public class WinDialog extends Dialog{
 			@Override 
 			public void clicked(InputEvent event, float x, float y){
 				hide();
-				game.setScreen(new WorldScene(game));
+				
+				game.setScreen(new LevelScene(game));
 			}
 		});
 	}

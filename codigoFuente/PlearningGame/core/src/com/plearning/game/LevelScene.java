@@ -66,7 +66,7 @@ public class LevelScene extends BaseScene {
 		level1Button.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-            	game.setLevel(1);
+            	game.setLevel(0);
                 game.setScreen(new PlearningGameScene(game));
             }
         });
@@ -74,7 +74,7 @@ public class LevelScene extends BaseScene {
 		level2Button.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-            	game.setLevel(2);
+            	game.setLevel(1);
                 game.setScreen(new PlearningGameScene(game));
             }
         });

@@ -1,7 +1,5 @@
 package com.plearning.game;
 
-import java.util.Vector;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
@@ -21,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 
 public class PlearningGameScene extends BaseScene {
@@ -30,6 +29,7 @@ public class PlearningGameScene extends BaseScene {
 	AtlasRegion background;
 	AtlasRegion door;
 	
+	DataSingleton data;
 	//Actors and Stage
 	Stage stage;
 	
@@ -48,21 +48,23 @@ public class PlearningGameScene extends BaseScene {
 	private boolean speeded;
 	private boolean win;
 	
-	Vector<ControlActor> controls;
-	Vector<BallActor> ballsIn;
-	Vector<BallActor> ballsOut;
-	Vector<BallActor> ballsEnd;
+	// Preparando para retirar
+	Array<ControlActor> controls;
+	Array<BallActor> ballsIn;
+	Array<BallActor> ballsOut;
+	//---
 	
-	int nControls = 7;
-	int nBallsIn = 4;
-	int nBallsOut = 3;
+	Array<BallActor> ballsEnd;
 	
-	boolean pauseState;
-	
-	boolean [] controlsPushed = {false, false, false, false, false, false, false};
+	// Preparando para cambiar
+	int nControls;
+	int nBallsIn;
+	int nBallsOut;	
+	boolean [] controlsPushed;
+	//---
 	Vector3 touchPosition;
 	Vector2 controlPosition;
-	
+	boolean pauseState;	
 	
 	SpriteBatch batch;
 	OrthographicCamera camera;
@@ -101,6 +103,7 @@ public class PlearningGameScene extends BaseScene {
 	public PlearningGameScene (PlearningGame plearning) {
 		super(plearning);
 		game = plearning;
+		data = new DataSingleton(game);
 		world = game.getWorld();
 		level = game.getLevel();
 		/*Handle win and loose*/
@@ -110,8 +113,8 @@ public class PlearningGameScene extends BaseScene {
 		looseDialog = new LooseDialog(game, "You loose", skin);
 		
 		/*Static initializations*/
-		ControlActor.initialize();
-		BallActor.initialize();
+		//ControlActor.initialize();
+		//BallActor.initialize();
 		BallActor.nBallsIn = nBallsIn;
 		//-----------------------
 		
@@ -147,36 +150,42 @@ public class PlearningGameScene extends BaseScene {
 		
 		//Here we choose the controls
 		/* watch out here --> int nControls = 7; */
-		controls = new Vector<ControlActor>();
-		controls.add(new ControlActor(game, ControlActor.controlType.DESTRUCTOR, Color.YELLOW, 0));
+		controls = data.getControls(level);
+		controlsPushed = new boolean[7];
+		/*for(int i=0; i<controls.size;i++){
+			controlsPushed[i] = false;
+		}*/
+		/*controls.add(new ControlActor(game, ControlActor.controlType.DESTRUCTOR, Color.YELLOW, 0));
 		controls.add(new ControlActor(game, ControlActor.controlType.IFLEFT, Color.YELLOW, 1));
 		controls.add(new ControlActor(game, ControlActor.controlType.DESTRUCTOR, Color.RED, 2));
 		controls.add(new ControlActor(game, ControlActor.controlType.IFLEFT, Color.BLUE, 3));
 		controls.add(new ControlActor(game, ControlActor.controlType.CONVERTER, Color.BLUE, 4));
 		controls.add(new ControlActor(game, ControlActor.controlType.IFRIGHT, Color.BLUE, 5));
-		controls.add(new ControlActor(game, ControlActor.controlType.DESTRUCTOR, Color.BLUE, 6));
-		
+		controls.add(new ControlActor(game, ControlActor.controlType.DESTRUCTOR, Color.BLUE, 6));*/
+		nBallsIn = BallActor.nBallsIn = data.countBallsIn(level);
+		nBallsOut = data.countBallsOut(level);
+		nControls = data.countControls(level);
 		//Timing in balls start
 		timeBMax = nBallsIn * 2 * 1000;
 		timeB = timeBMax;
 		//Here we choose the balls in and out
-		ballsIn = new Vector<BallActor>();
-		ballsOut = new Vector<BallActor>();
-		ballsEnd = new Vector<BallActor>();
+		ballsIn = data.getBallsIn(level);
+		ballsOut = data.getBallsOut(level);
+		ballsEnd = new Array<BallActor>();
 		
 			/*	Care with this ->
 			 * 		int nBallsIn = 4;
 			 * 		int nBallsOut = 3;
 			 * 
 			*/
-		ballsIn.addElement(new BallActor(game, Color.BLUE, BallActor.BallInOut.IN, 0, timeBMax));
+		/*ballsIn.addElement(new BallActor(game, Color.BLUE, BallActor.BallInOut.IN, 0, timeBMax));
 		ballsIn.addElement(new BallActor(game, Color.RED, BallActor.BallInOut.IN, 1, timeBMax-2000));
 		ballsIn.addElement(new BallActor(game, Color.RED, BallActor.BallInOut.IN,2, timeBMax-4000));
 		ballsIn.addElement(new BallActor(game, Color.YELLOW, BallActor.BallInOut.IN, 3, timeBMax -6000));
 		
 		ballsOut.addElement(new BallActor(game, Color.BLUE, BallActor.BallInOut.OUT, 0, 0));
 		ballsOut.addElement(new BallActor(game, Color.BLUE, BallActor.BallInOut.OUT, 1, 0));
-		ballsOut.addElement(new BallActor(game, Color.BLUE, BallActor.BallInOut.OUT, 2, 0));
+		ballsOut.addElement(new BallActor(game, Color.BLUE, BallActor.BallInOut.OUT, 2, 0));*/
 		
 		touchPosition = new Vector3(0,0,0);
 		controlPosition = new Vector2(0,0);
@@ -365,7 +374,7 @@ public class PlearningGameScene extends BaseScene {
 			pause.setVisible(true);
 			play.setVisible(false);
 			
-			if(ballsEnd.size()==BallActor.nBallsIn){
+			if(ballsEnd.size==BallActor.nBallsIn){
 				gameState = GameState.FINISH;
 			}
 			if(game.soundEnabled){
@@ -394,9 +403,10 @@ public class PlearningGameScene extends BaseScene {
 				}
 			}
 			if (ballOut){
-				ballsIn.get(ballsIn.indexOf(ballAux)).setVisible(false);
-				ballsIn.get(ballsIn.indexOf(ballAux)).translate(0, 0);
-				ballsIn.removeElement(ballAux);
+				
+				ballsIn.get(ballsIn.indexOf(ballAux, false)).setVisible(false);
+				ballsIn.get(ballsIn.indexOf(ballAux, false)).translate(0, 0);
+				ballsIn.removeValue(ballAux, false);
 				
 			}
 			for(ControlActor control: controls){
@@ -426,14 +436,14 @@ public class PlearningGameScene extends BaseScene {
 				
 				if(creatorWorking){
 					ballsIn.add(auxBall);
-					stage.addActor(ballsIn.lastElement());
+					stage.addActor(ballsIn.peek());
 					creatorWorking = false;
 				}
 				if(destructorWorking){
-					ballsIn.get(ballsIn.indexOf(auxBall)).setVisible(false);
-					ballsIn.get(ballsIn.indexOf(auxBall)).translate(0,0);
-					ballsIn.get(ballsIn.indexOf(auxBall)).remove();
-					ballsIn.removeElement(ballsIn.get(ballsIn.indexOf(auxBall)));
+					ballsIn.get(ballsIn.indexOf(auxBall, false)).setVisible(false);
+					ballsIn.get(ballsIn.indexOf(auxBall, false)).translate(0,0);
+					ballsIn.get(ballsIn.indexOf(auxBall, false)).remove();
+					ballsIn.removeValue(ballsIn.get(ballsIn.indexOf(auxBall, false)), false);
 					BallActor.nBallsIn--;
 					destructorWorking = false;
 				}
@@ -447,9 +457,9 @@ public class PlearningGameScene extends BaseScene {
 				stopMusic();
 			}
 			
-			if(ballsEnd.size() == ballsOut.size()){
+			if(ballsEnd.size == ballsOut.size){
 				win = (ballsEnd.get(0).type == ballsOut.get(0).type);
-				for(int i=1; i<ballsEnd.size(); i++){
+				for(int i=1; i<ballsEnd.size; i++){
 					win = win && (ballsEnd.get(i).type == ballsOut.get(i).type);
 				}
 			}
