@@ -14,7 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
-public class Help1Scene extends BaseScene {
+public class Help2Scene extends BaseScene {
 	private Stage stage;
 	private Image screenBg;
 	private Skin skin;
@@ -27,14 +27,14 @@ public class Help1Scene extends BaseScene {
 	private PlearningGame game;
 	
 	
-	public Help1Scene(PlearningGame plearning) {
+	public Help2Scene(PlearningGame plearning) {
 		super(plearning);
 		game = plearning;
 		stage = new Stage(game.viewport);
 		Gdx.input.setInputProcessor(stage);
 		skin = new Skin(Gdx.files.internal("UI/uiskin.json"));
 
-		screenBg = new Image(game.manager.get("HELP/help-1.png", Texture.class));
+		screenBg = new Image(game.manager.get("HELP/help-2.png", Texture.class));
 
 		
 		
@@ -60,13 +60,13 @@ public class Help1Scene extends BaseScene {
 		backButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-            	game.setScreen(new MenuScene(game));
+            	game.setScreen(new Help1Scene(game));
             }
         });
 		nextButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-            	game.setScreen(new Help2Scene(game));
+            	game.setScreen(new Help3Scene(game));
             }
         });
 		

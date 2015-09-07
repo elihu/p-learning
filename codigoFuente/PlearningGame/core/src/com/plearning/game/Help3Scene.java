@@ -14,27 +14,27 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
-public class Help1Scene extends BaseScene {
+public class Help3Scene extends BaseScene {
 	private Stage stage;
 	private Image screenBg;
 	private Skin skin;
 	
 	private Table table;
 	private TextButton backButton;
-	private TextButton nextButton;
+	private TextButton homeButton;
 
 
 	private PlearningGame game;
 	
 	
-	public Help1Scene(PlearningGame plearning) {
+	public Help3Scene(PlearningGame plearning) {
 		super(plearning);
 		game = plearning;
 		stage = new Stage(game.viewport);
 		Gdx.input.setInputProcessor(stage);
 		skin = new Skin(Gdx.files.internal("UI/uiskin.json"));
 
-		screenBg = new Image(game.manager.get("HELP/help-1.png", Texture.class));
+		screenBg = new Image(game.manager.get("HELP/help-3.png", Texture.class));
 
 		
 		
@@ -45,8 +45,8 @@ public class Help1Scene extends BaseScene {
 		
 		backButton=new TextButton(" BACK ", skin);
 		table.add(backButton).fill();
-		nextButton=new TextButton(" NEXT ", skin);
-		table.add(nextButton).fill();
+		homeButton=new TextButton(" MENU ", skin);
+		table.add(homeButton).fill();
 		table.setPosition(400, -200);
 		
 		
@@ -60,15 +60,16 @@ public class Help1Scene extends BaseScene {
 		backButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-            	game.setScreen(new MenuScene(game));
-            }
-        });
-		nextButton.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
             	game.setScreen(new Help2Scene(game));
             }
         });
+		homeButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+            	game.setScreen(new MenuScene(game));
+            }
+        });
+		
 		
 		
 	}
