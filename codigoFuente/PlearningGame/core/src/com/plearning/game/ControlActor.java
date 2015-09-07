@@ -253,9 +253,10 @@ public class ControlActor extends Actor {
 			case DESTRUCTOR:
 				if(ball.type == color){
 					playTap();
-					ball.changeDir();
+					//ball.setVisible(false);
+					/*ball.translate(0,0);
 					ball.remove();
-					BallActor.nBallsIn--;
+					BallActor.nBallsIn--;*/
 				}
 				break;
 				

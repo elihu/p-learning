@@ -389,10 +389,13 @@ public class PlearningGameScene extends BaseScene {
 			}
 			if (ballOut){
 				ballsIn.get(ballsIn.indexOf(ballAux)).setVisible(false);
+				ballsIn.get(ballsIn.indexOf(ballAux)).translate(0, 0);
 				ballsIn.removeElement(ballAux);
+				
 			}
 			for(ControlActor control: controls){
 				boolean creatorWorking = false;
+				boolean destructorWorking = false;
 				BallActor auxBall = null;
 				
 				for(BallActor ball: ballsIn){
@@ -405,6 +408,11 @@ public class PlearningGameScene extends BaseScene {
 							auxBall = new BallActor(game, ball.type, BallActor.BallInOut.IN, nBallsIn-1, new Vector2(control.getX()+35,control.getY()));
 							
 						}
+						if((control.type == ControlActor.controlType.DESTRUCTOR) && (control.color == ball.type)){
+							
+							destructorWorking = true;
+							auxBall = ball;
+						}
 				
 						control.triggerAction(ball);
 					}
@@ -414,6 +422,14 @@ public class PlearningGameScene extends BaseScene {
 					ballsIn.add(auxBall);
 					stage.addActor(ballsIn.lastElement());
 					creatorWorking = false;
+				}
+				if(destructorWorking){
+					ballsIn.get(ballsIn.indexOf(auxBall)).setVisible(false);
+					ballsIn.get(ballsIn.indexOf(auxBall)).translate(0,0);
+					ballsIn.get(ballsIn.indexOf(auxBall)).remove();
+					ballsIn.removeElement(ballsIn.get(ballsIn.indexOf(auxBall)));
+					BallActor.nBallsIn--;
+					destructorWorking = false;
 				}
 				
 			}

@@ -38,7 +38,7 @@ public class PlearningGame extends Game {
 		
 		manager = new AssetManager();
 		
-		soundEnabled = false;
+		soundEnabled = true;
 		soundVolume = 1.5f;
 	}
 	@Override
