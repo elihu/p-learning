@@ -112,11 +112,6 @@ public class PlearningGameScene extends BaseScene {
 		winDialog = new WinDialog(game, " You win this level! ", skin );
 		looseDialog = new LooseDialog(game, "You loose", skin);
 		
-		/*Static initializations*/
-		//ControlActor.initialize();
-		//BallActor.initialize();
-		BallActor.nBallsIn = nBallsIn;
-		//-----------------------
 		
 		stage = new Stage(game.viewport);
 		Gdx.input.setInputProcessor(stage);
@@ -149,19 +144,9 @@ public class PlearningGameScene extends BaseScene {
 		timer.setPosition(50, 750);
 		
 		//Here we choose the controls
-		/* watch out here --> int nControls = 7; */
 		controls = data.getControls(level);
 		controlsPushed = new boolean[7];
-		/*for(int i=0; i<controls.size;i++){
-			controlsPushed[i] = false;
-		}*/
-		/*controls.add(new ControlActor(game, ControlActor.controlType.DESTRUCTOR, Color.YELLOW, 0));
-		controls.add(new ControlActor(game, ControlActor.controlType.IFLEFT, Color.YELLOW, 1));
-		controls.add(new ControlActor(game, ControlActor.controlType.DESTRUCTOR, Color.RED, 2));
-		controls.add(new ControlActor(game, ControlActor.controlType.IFLEFT, Color.BLUE, 3));
-		controls.add(new ControlActor(game, ControlActor.controlType.CONVERTER, Color.BLUE, 4));
-		controls.add(new ControlActor(game, ControlActor.controlType.IFRIGHT, Color.BLUE, 5));
-		controls.add(new ControlActor(game, ControlActor.controlType.DESTRUCTOR, Color.BLUE, 6));*/
+	
 		nBallsIn = BallActor.nBallsIn = data.countBallsIn(level);
 		nBallsOut = data.countBallsOut(level);
 		nControls = data.countControls(level);
@@ -173,19 +158,6 @@ public class PlearningGameScene extends BaseScene {
 		ballsOut = data.getBallsOut(level);
 		ballsEnd = new Array<BallActor>();
 		
-			/*	Care with this ->
-			 * 		int nBallsIn = 4;
-			 * 		int nBallsOut = 3;
-			 * 
-			*/
-		/*ballsIn.addElement(new BallActor(game, Color.BLUE, BallActor.BallInOut.IN, 0, timeBMax));
-		ballsIn.addElement(new BallActor(game, Color.RED, BallActor.BallInOut.IN, 1, timeBMax-2000));
-		ballsIn.addElement(new BallActor(game, Color.RED, BallActor.BallInOut.IN,2, timeBMax-4000));
-		ballsIn.addElement(new BallActor(game, Color.YELLOW, BallActor.BallInOut.IN, 3, timeBMax -6000));
-		
-		ballsOut.addElement(new BallActor(game, Color.BLUE, BallActor.BallInOut.OUT, 0, 0));
-		ballsOut.addElement(new BallActor(game, Color.BLUE, BallActor.BallInOut.OUT, 1, 0));
-		ballsOut.addElement(new BallActor(game, Color.BLUE, BallActor.BallInOut.OUT, 2, 0));*/
 		
 		touchPosition = new Vector3(0,0,0);
 		controlPosition = new Vector2(0,0);
