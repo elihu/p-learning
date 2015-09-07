@@ -149,7 +149,7 @@ public class PlearningGameScene extends BaseScene {
 		controls.add(new ControlActor(game, ControlActor.controlType.DESTRUCTOR, Color.YELLOW, 0));
 		controls.add(new ControlActor(game, ControlActor.controlType.IFLEFT, Color.YELLOW, 1));
 		controls.add(new ControlActor(game, ControlActor.controlType.DESTRUCTOR, Color.RED, 2));
-		controls.add(new ControlActor(game, ControlActor.controlType.CREATOR, Color.BLUE, 3));
+		controls.add(new ControlActor(game, ControlActor.controlType.IFLEFT, Color.BLUE, 3));
 		controls.add(new ControlActor(game, ControlActor.controlType.CONVERTER, Color.BLUE, 4));
 		controls.add(new ControlActor(game, ControlActor.controlType.IFRIGHT, Color.BLUE, 5));
 		controls.add(new ControlActor(game, ControlActor.controlType.DESTRUCTOR, Color.BLUE, 6));

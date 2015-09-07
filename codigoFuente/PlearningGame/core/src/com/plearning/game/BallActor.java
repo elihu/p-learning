@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.plearning.game.PlearningGameScene.Color;
 
 public class BallActor extends Actor {
@@ -252,14 +253,8 @@ public class BallActor extends Actor {
 	public void dirRight(){
 		direction = 1;
 	}
-	public void stop() {
-		// TODO Auto-generated method stub
-		
-	}
-	public void go() {
-		// TODO Auto-generated method stub
-		
-	}
+	
+	
 	public static void restartVelocity(){
 		VELOCITY = 50f;
 	}

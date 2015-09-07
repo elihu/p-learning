@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.plearning.game.PlearningGameScene.Color;
 
 public class ControlActor extends Actor {
@@ -223,8 +224,7 @@ public class ControlActor extends Actor {
 			case FLAG:
 				if(!activated && ball.type == color){
 					playTap();
-					ball.stop();
-					ball.go();
+					//TODO. Have to think about a new function for this control
 					activated = true;
 					
 				}
@@ -274,7 +274,5 @@ public class ControlActor extends Actor {
 		
 	}
 
-	public void engageTrigger(){
-	}
 	public Rectangle getBody(){return body;}
 }
