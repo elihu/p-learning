@@ -85,6 +85,9 @@ public class LoadingScreen extends ScreenAdapter {
 		game.manager.load("UI/background.png", Texture.class);
 		game.manager.load("UI/title.png", Texture.class);
 		
+		//loads HELP items
+		game.manager.load("HELP/help-1.png", Texture.class);
+		
 		
 		game.manager.finishLoading();
 		

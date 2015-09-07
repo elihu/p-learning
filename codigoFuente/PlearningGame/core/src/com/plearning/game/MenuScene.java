@@ -139,17 +139,15 @@ public class MenuScene extends BaseScene {
                 showExit(true);
             }
         });
-        /*helpButton.addListener(new ClickListener(){
+        helpButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
             	if(game.soundEnabled){
     				tapSound.play();
     			}
-                showHelp(true);
-            	//Gdx.app.exit();
-                // or System.exit(0);
+                game.setScreen(new Help1Scene(game));
             }
-        });*/
+        });
 		yesButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
