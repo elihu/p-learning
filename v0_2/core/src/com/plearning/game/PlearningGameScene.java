@@ -12,11 +12,13 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -30,19 +32,25 @@ public class PlearningGameScene extends BaseScene {
 	//Actors and Stage
 	Stage stage;
 	
-	
+	final Rectangle finish = new Rectangle(440, 140, 30, 30);
 	
 	OptionActor options;
 	OptionActor restart;
 	OptionActor play;
 	OptionActor pause;
 	OptionActor speed;
+	/*Handle win and loose*/
+	Skin skin;
+	WinDialog winDialog;
+	LooseDialog looseDialog;
 	
 	private boolean speeded;
+	private boolean win;
 	
 	Vector<ControlActor> controls;
 	Vector<BallActor> ballsIn;
 	Vector<BallActor> ballsOut;
+	Vector<BallActor> ballsEnd;
 	
 	int nControls = 7;
 	int nBallsIn = 4;
@@ -68,15 +76,21 @@ public class PlearningGameScene extends BaseScene {
 	
 	//Timer countdown code
 	long time;
-	long timeOut = 120000;
+	long timeOut = 90000;
 	LabelStyle style;
 	Label timer;
+	
+	//Timer for all balls
+	long timeB;
+	long timeBMax;
+	
+	
 	
 	static enum Color{
 		RED, BLUE, GREEN, YELLOW
 	}
 	static enum GameState{
-		INIT, CONTROLS, PLAYING, PAUSE, FINISH, OPTIONS, START
+		INIT, CONTROLS, PLAYING, PAUSE, FINISH, OPTIONS, START, WIN, LOOSE
 	}
 	
 	GameState gameState = GameState.INIT;
@@ -87,9 +101,16 @@ public class PlearningGameScene extends BaseScene {
 		super(plearning);
 		game = plearning;
 		world = w;
+		/*Handle win and loose*/
+		skin = new Skin(Gdx.files.internal("UI/uiskin.json"));
+		win = false;
+		winDialog = new WinDialog(game, " You win this level! ", skin );
+		looseDialog = new LooseDialog(game, "You loose", skin);
+		
 		/*Static initializations*/
 		ControlActor.initialize();
 		BallActor.initialize();
+		BallActor.nBallsIn = nBallsIn;
 		//-----------------------
 		
 		stage = new Stage(game.viewport);
@@ -114,6 +135,7 @@ public class PlearningGameScene extends BaseScene {
 		
 		speeded = false;
 		
+		//Timer initialization
 		style = new LabelStyle();
 		style.font = game.manager.get("UI/font.fnt", BitmapFont.class);
 		style.fontColor = com.badlogic.gdx.graphics.Color.WHITE;
@@ -124,31 +146,35 @@ public class PlearningGameScene extends BaseScene {
 		//Here we choose the controls
 		/* watch out here --> int nControls = 7; */
 		controls = new Vector<ControlActor>();
-		controls.add(new ControlActor(game, ControlActor.controlType.FLAG, Color.BLUE, 0));
+		controls.add(new ControlActor(game, ControlActor.controlType.DESTRUCTOR, Color.YELLOW, 0));
 		controls.add(new ControlActor(game, ControlActor.controlType.IFLEFT, Color.YELLOW, 1));
-		controls.add(new ControlActor(game, ControlActor.controlType.IFLEFT, Color.BLUE, 2));
+		controls.add(new ControlActor(game, ControlActor.controlType.DESTRUCTOR, Color.RED, 2));
 		controls.add(new ControlActor(game, ControlActor.controlType.CREATOR, Color.BLUE, 3));
 		controls.add(new ControlActor(game, ControlActor.controlType.CONVERTER, Color.BLUE, 4));
 		controls.add(new ControlActor(game, ControlActor.controlType.IFRIGHT, Color.BLUE, 5));
 		controls.add(new ControlActor(game, ControlActor.controlType.DESTRUCTOR, Color.BLUE, 6));
 		
+		//Timing in balls start
+		timeBMax = nBallsIn * 2 * 1000;
+		timeB = timeBMax;
 		//Here we choose the balls in and out
 		ballsIn = new Vector<BallActor>();
 		ballsOut = new Vector<BallActor>();
+		ballsEnd = new Vector<BallActor>();
 		
 			/*	Care with this ->
 			 * 		int nBallsIn = 4;
 			 * 		int nBallsOut = 3;
 			 * 
 			*/
-		ballsIn.addElement(new BallActor(game, Color.GREEN, BallActor.BallInOut.IN, 0));
-		ballsIn.addElement(new BallActor(game, Color.RED, BallActor.BallInOut.IN, 1));
-		ballsIn.addElement(new BallActor(game, Color.RED, BallActor.BallInOut.IN, 2));
-		ballsIn.addElement(new BallActor(game, Color.YELLOW, BallActor.BallInOut.IN, 3));
+		ballsIn.addElement(new BallActor(game, Color.BLUE, BallActor.BallInOut.IN, 0, timeBMax));
+		ballsIn.addElement(new BallActor(game, Color.RED, BallActor.BallInOut.IN, 1, timeBMax-2000));
+		ballsIn.addElement(new BallActor(game, Color.RED, BallActor.BallInOut.IN,2, timeBMax-4000));
+		ballsIn.addElement(new BallActor(game, Color.YELLOW, BallActor.BallInOut.IN, 3, timeBMax -6000));
 		
-		ballsOut.addElement(new BallActor(game, Color.BLUE, BallActor.BallInOut.OUT, 0));
-		ballsOut.addElement(new BallActor(game, Color.BLUE, BallActor.BallInOut.OUT, 1));
-		ballsOut.addElement(new BallActor(game, Color.BLUE, BallActor.BallInOut.OUT, 2));
+		ballsOut.addElement(new BallActor(game, Color.BLUE, BallActor.BallInOut.OUT, 0, 0));
+		ballsOut.addElement(new BallActor(game, Color.BLUE, BallActor.BallInOut.OUT, 1, 0));
+		ballsOut.addElement(new BallActor(game, Color.BLUE, BallActor.BallInOut.OUT, 2, 0));
 		
 		touchPosition = new Vector3(0,0,0);
 		controlPosition = new Vector2(0,0);
@@ -184,6 +210,10 @@ public class PlearningGameScene extends BaseScene {
 			stage.addActor(ballsOut.get(i));
 		}
 		
+		
+		
+		
+		//Touch Listeners
 		restart.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -193,7 +223,7 @@ public class PlearningGameScene extends BaseScene {
 		options.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-            	gameState = GameState.FINISH;
+            	game.setScreen(new MenuScene(game));
             }
         });
 		
@@ -201,7 +231,7 @@ public class PlearningGameScene extends BaseScene {
             @Override
             public void clicked(InputEvent event, float x, float y) {
 				if(speeded){
-					BallActor.VELOCITY *= 0.5f;
+					BallActor.restartVelocity();
 					speeded = false;
             	}
 				else{
@@ -240,6 +270,17 @@ public class PlearningGameScene extends BaseScene {
             	}
             }
         });
+		for(final ControlActor c : controls){
+			c.addListener(new ClickListener(){
+	            @Override
+	            public void clicked(InputEvent event, float x, float y) {
+	            		    		
+					c.playTap();
+					controlsPushed[c.index] = true;
+							
+	            }
+	        });
+		}
 		
 		pauseState = false;
 		/*Static initializations*/
@@ -265,10 +306,6 @@ public class PlearningGameScene extends BaseScene {
 						controls.get(i).setPosition(controlPosition.x, controlPosition.y);
 					controlsPushed[i] = false;
 				}
-				else if(controls.get(i).overlaps(touchPosition)){
-					controls.get(i).playTap();
-					controlsPushed[i] = true;
-				}
 			}
 		}
 	}
@@ -289,7 +326,7 @@ public class PlearningGameScene extends BaseScene {
 		else if(gameState == GameState.CONTROLS){
 			captureTouch();
 			
-			 if(TimeUtils.millis() - time > 1000){
+			if(TimeUtils.millis() - time > 1000){
 				//Esta parte se ejecutará cada segundo.
 				time = TimeUtils.millis();
 				timeOut -= 1000;
@@ -311,59 +348,107 @@ public class PlearningGameScene extends BaseScene {
 				
 		}
 		else if(gameState == GameState.START){
-			/*for(BallActor ball: ballsIn){
+			for(BallActor ball: ballsIn){
 				ball.start();
-			}*/
-			ballsIn.get(0).start();
+			}
+			
+			//ballsIn.get(0).start();
 			gameState = GameState.PLAYING;
 		}
 		else if(gameState == GameState.PLAYING){
 			pause.setVisible(true);
-			speed.setVisible(true);
 			play.setVisible(false);
 			
+			if(ballsEnd.size()==BallActor.nBallsIn){
+				gameState = GameState.FINISH;
+			}
 			if(game.soundEnabled){
 				playMusic();
 				music.setVolume(game.soundVolume);
 			}
-			/*for(BallActor ball: ballsIn){
-				ball.update(labyrinth.getPlatforms());
-			}*/
-			ballsIn.get(0).update(labyrinth.getPlatforms());
+			if(timeB > 0){
+				if(TimeUtils.millis() - time > 1000){
+					//Esta parte se ejecutará cada segundo.
+					time = TimeUtils.millis();
+					timeB -= 1000;
+					
+				}
+			}
+			if(timeB<=0){
+				speed.setVisible(true);
+			}
+			BallActor ballAux = null;
+			boolean ballOut = false;
+			for(BallActor ball: ballsIn){
+				ball.update(labyrinth.getPlatforms(), timeB);
+				if(ball.collide(finish)){
+					ballAux = ball;
+					ballsEnd.add(ball);
+					ballOut = true;
+				}
+			}
+			if (ballOut){
+				ballsIn.get(ballsIn.indexOf(ballAux)).setVisible(false);
+				ballsIn.removeElement(ballAux);
+			}
 			for(ControlActor control: controls){
-				
-				/*for(BallActor ball: ballsIn){
-					
-					if(ball.collide(control.getBody())){
-						if(control.type == ControlActor.controlType.CREATOR){
-							nBallsIn++;
-							ballsIn.add(new BallActor(game, ballsIn.get(0).type, BallActor.BallInOut.IN, 4, new Vector2(control.getX()+35,control.getY())));
-							stage.addActor(ballsIn.lastElement());
-						}
-						control.triggerAction(ball);
-						
-					}
-					
-				}*/
+				boolean creatorWorking = false;
+				BallActor auxBall = null;
 				
 				for(BallActor ball: ballsIn){
 					
 					if(ball.collide(control.getBody())){
-						if(control.type == ControlActor.controlType.CREATOR){
-							nBallsIn++;
-							ballsIn.add(new BallActor(game, ballsIn.get(0).type, BallActor.BallInOut.IN, 4, new Vector2(control.getX()+35,control.getY())));
-							stage.addActor(ballsIn.lastElement());
+						if(control.type == ControlActor.controlType.CREATOR && !control.activated){
+							creatorWorking = true;
+							control.activated = true;
+							//nBallsIn++;
+							auxBall = new BallActor(game, ball.type, BallActor.BallInOut.IN, nBallsIn-1, new Vector2(control.getX()+35,control.getY()));
+							
 						}
-						control.triggerAction(ballsIn.get(0));
-					}	
+				
+						control.triggerAction(ball);
+					}
 				}
+				
+				if(creatorWorking){
+					ballsIn.add(auxBall);
+					stage.addActor(ballsIn.lastElement());
+					creatorWorking = false;
+				}
+				
 			}
+			
 		}
 		else if(gameState == GameState.FINISH){
+			
 			if(game.soundEnabled){
 				stopMusic();
 			}
-			game.setScreen(new MenuScene(game));
+			
+			if(ballsEnd.size() == ballsOut.size()){
+				win = (ballsEnd.get(0).type == ballsOut.get(0).type);
+				for(int i=1; i<ballsEnd.size(); i++){
+					win = win && (ballsEnd.get(i).type == ballsOut.get(i).type);
+				}
+			}
+			
+			
+			if(win){
+				gameState = GameState.WIN;
+				
+			}
+			else{
+				gameState = GameState.LOOSE;
+			}
+		}
+		else if(gameState == GameState.WIN){
+			winDialog.show(stage);
+		}
+		else if(gameState == GameState.LOOSE){
+			looseDialog.show(stage);
+			if(looseDialog.retry){
+				resetScene();
+			}
 		}
 		
 	}
@@ -401,6 +486,7 @@ public class PlearningGameScene extends BaseScene {
 		if(game.soundEnabled){
 			stopMusic();
 		}
+		BallActor.restartVelocity();
 		game.setScreen(new PlearningGameScene(game, world));
 	}
 
@@ -424,6 +510,7 @@ public class PlearningGameScene extends BaseScene {
 		tapSound.dispose();
 		music.dispose();
 		stage.dispose();
+		skin.dispose();
 	}
 	
 }

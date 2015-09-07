@@ -10,21 +10,21 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.TimeUtils;
 import com.plearning.game.PlearningGameScene.Color;
 
 public class BallActor extends Actor {
 
 	AtlasRegion image;
 	
+	public static int nBallsIn = 4;
 	public static Vector2 startPosition = new Vector2(175, 630);
 	public static float VELOCITY = 50f; // Velocidad del jugador
+	
 	private boolean inFloor; // Indica si esta saltando o en el suelo respectivamente
 	private int direction;
 	private Rectangle body;
 	private boolean stopped;
 	long time;
-	long timeOut;
 	
 	public static Vector<Vector2> ballsInPositions = new Vector<Vector2>();	
 	public static Vector<Vector2> ballsOutPositions = new Vector<Vector2>();
@@ -47,6 +47,7 @@ public class BallActor extends Actor {
 		type = o;
 		index = p;
 		inout = i;
+		time = 0;
 		
 		switch (type){
 		case RED:
@@ -73,12 +74,13 @@ public class BallActor extends Actor {
 		direction = 1;
 		
 	}
-	public BallActor(PlearningGame g, Color o, BallInOut i, int p){
+	public BallActor(PlearningGame g, Color o, BallInOut i, int p, long t){
 		game = g;
 		atlas = game.atlas;
 		type = o;
 		index = p;
 		inout = i;
+		time = t;
 		
 		switch (type){
 		case RED:
@@ -134,38 +136,39 @@ public class BallActor extends Actor {
 		
 		batch.draw(image, this.getX(), this.getY());
 	}
-	public void update(Array<Rectangle> platforms) { // Metodo donde se actualiza los valores del jugador y se comprueban las colisiones
-		boolean down;
-		down = false; // Permite comprobar si hay una colision o no
-		for(Rectangle rectangle : platforms) {
-			if(downCollision(rectangle)) { // Si colisiona por abajo
-				inFloor = true;
-				down = true;
+	public void update(Array<Rectangle> platforms, long timeStamp) { // Metodo donde se actualiza los valores del jugador y se comprueban las colisiones*
+		if(time > timeStamp){
+			boolean down;
+			
+			down = false; // Permite comprobar si hay una colision o no
+			for(Rectangle rectangle : platforms) {
+				if(downCollision(rectangle)) { // Si colisiona por abajo
+					inFloor = true;
+					down = true;
+				}
+				
+				if(rightCollision(rectangle)){ // Si colisiona por la derecha
+					direction = -1;
+				}
+				
+				if(leftCollision(rectangle)){ // Si colisiona por la izquierda
+					direction = 1;
+				}
+				
 			}
 			
-			if(rightCollision(rectangle)){ // Si colisiona por la derecha
-				direction = -1;
+			if(!down){ // Si no colisiona para abajo
+				inFloor = false;
+				translate(0, -VELOCITY * Gdx.graphics.getDeltaTime());
+				
 			}
+			if(inFloor){
+				if(!stopped){
+					translate(direction * VELOCITY * Gdx.graphics.getDeltaTime(), 0);
+				}
 			
-			if(leftCollision(rectangle)){ // Si colisiona por la izquierda
-				direction = 1;
+				
 			}
-			
-		}
-		
-		
-		
-		if(!down){ // Si no colisiona para abajo
-			inFloor = false;
-			translate(0, -VELOCITY * Gdx.graphics.getDeltaTime());
-			
-		}
-		if(inFloor){
-			if(!stopped){
-				translate(direction * VELOCITY * Gdx.graphics.getDeltaTime(), 0);
-			}
-		
-			
 		}
 	}
 	
@@ -249,13 +252,16 @@ public class BallActor extends Actor {
 	public void dirRight(){
 		direction = 1;
 	}
+	public void stop() {
+		// TODO Auto-generated method stub
+		
+	}
+	public void go() {
+		// TODO Auto-generated method stub
+		
+	}
+	public static void restartVelocity(){
+		VELOCITY = 50f;
+	}
 	
-	public void stop(){
-		stopped = true;
-		time = TimeUtils.millis();
-	}
-	public void go(){
-		if(TimeUtils.timeSinceMillis(time)>1000)
-			stopped = false;
-	}
 }

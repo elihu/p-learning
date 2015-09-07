@@ -31,7 +31,6 @@ public class ControlActor extends Actor {
 	Color color;
 	
 	boolean activated;
-	
 	//Sound
 	AssetManager manager;
 	Sound tapSound;
@@ -177,7 +176,7 @@ public class ControlActor extends Actor {
 		super.setPosition(controlsPositions.get(position).x,controlsPositions.get(position).y);
 		setWidth(35);
 		setHeight(35);
-		body = new Rectangle(this.getX(), this.getY(), 5, 1);
+		body = new Rectangle(this.getX(), this.getY(), 3, 10);
 	}
 	public static void initialize(){
 		controlsPositions.add(new Vector2(70,175));
@@ -221,54 +220,60 @@ public class ControlActor extends Actor {
 	public void triggerAction(BallActor ball){
 		
 		switch (type){
-		case FLAG:
-			if(!activated && ball.type == color){
+			case FLAG:
+				if(!activated && ball.type == color){
+					playTap();
+					ball.stop();
+					ball.go();
+					activated = true;
+					
+				}
+				break;
+			case IFLEFT:
+				if(!activated && ball.type == color){
+					playTap();
+					ball.dirLeft();
+					ball.translate(-20, 0);
+					activated = true;
+				}
+				break;
+			case IFRIGHT:
+				if(!activated && ball.type == color){
+					playTap();
+					ball.dirRight();
+					ball.translate(35, 0);
+					activated = true;
+				}
+				break;
+			case CREATOR:
 				playTap();
-				ball.stop();
-				ball.go();
-				activated = true;
-				
-			}
-			break;
-		case IFLEFT:
-			if(!activated && ball.type == color){
-				playTap();
-				ball.dirLeft();
-				ball.translate(-20, 0);
-				activated = true;
-			}
-			break;
-		case IFRIGHT:
-			if(!activated && ball.type == color){
-				playTap();
-				ball.dirRight();
 				ball.translate(35, 0);
-				activated = true;
-			}
-			break;
-		case CREATOR:
-			playTap();
-			break;
-		case DESTRUCTOR:
-			if(ball.type == color){
+				BallActor.nBallsIn--;
+				break;
+			case DESTRUCTOR:
+				if(ball.type == color){
+					playTap();
+					ball.changeDir();
+					ball.remove();
+					BallActor.nBallsIn--;
+				}
+				break;
+				
+			case CONVERTER:
 				playTap();
-				ball.changeDir();
-				ball.remove();
-			}
-			break;
-			
-		case CONVERTER:
-			playTap();
-			ball.changeColor(color);
-			break;
-			
-		case DIRCHANGER:
-			if(ball.type == color){
-				ball.changeDir();
-			}
-			break;
+				ball.changeColor(color);
+				break;
+				
+			case DIRCHANGER:
+				if(ball.type == color){
+					ball.changeDir();
+				}
+				break;
 		}
 		
+	}
+
+	public void engageTrigger(){
 	}
 	public Rectangle getBody(){return body;}
 }
