@@ -56,6 +56,7 @@ public class BaseScene extends ScreenAdapter {
 	
 	public void changeMusic(Music m){
 		if(game.soundEnabled){
+			stopMusic();
 			music = m;
 			music.setLooping(true);
 		}

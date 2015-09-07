@@ -223,6 +223,9 @@ public class PlearningGameScene extends BaseScene {
 		options.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+            	if(game.soundEnabled){
+        			stopMusic();
+        		}
             	game.setScreen(new MenuScene(game));
             }
         });
@@ -518,7 +521,9 @@ public class PlearningGameScene extends BaseScene {
 	protected void handleBackPress() {
 		//-- depurar
 		System.out.println("back");
-		
+		if(game.soundEnabled){
+			stopMusic();
+		}
 		game.setScreen(new MenuScene(game));
 	}
 	

@@ -176,7 +176,7 @@ public class ControlActor extends Actor {
 		super.setPosition(controlsPositions.get(position).x,controlsPositions.get(position).y);
 		setWidth(35);
 		setHeight(35);
-		body = new Rectangle(this.getX(), this.getY(), 3, 10);
+		body = new Rectangle(this.getX(), this.getY(), 3, 7);
 	}
 	public static void initialize(){
 		controlsPositions.add(new Vector2(70,175));
