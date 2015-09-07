@@ -42,6 +42,7 @@ public class LevelScene extends BaseScene {
 		helpTip.setColor(Color.WHITE);
 		
 		table=new Table();//.debug();
+		
 		level1Button=new TextButton(" LEVEL 1 ", skin);
 		table.add(level1Button).padBottom(10).fill();
 		table.row();
@@ -66,7 +67,12 @@ public class LevelScene extends BaseScene {
 		level1Button.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-            	game.setLevel(0);
+            	if(game.getWorldN() == 1){
+            		game.setLevel(0);
+            	}
+            	else if(game.getWorldN()==2){
+            		game.setLevel(2);
+            		}
                 game.setScreen(new PlearningGameScene(game));
             }
         });
@@ -74,7 +80,12 @@ public class LevelScene extends BaseScene {
 		level2Button.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-            	game.setLevel(1);
+            	if(game.getWorldN() == 1){
+            		game.setLevel(1);
+            	}
+            	else if(game.getWorldN()==2){
+            		game.setLevel(4);
+            		}
                 game.setScreen(new PlearningGameScene(game));
             }
         });

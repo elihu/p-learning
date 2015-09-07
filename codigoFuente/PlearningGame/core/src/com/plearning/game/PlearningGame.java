@@ -28,13 +28,18 @@ public class PlearningGame extends Game {
 	public float soundVolume;
 	
 	private String world;
+	private int worldN;
 	private int level;
 	
 	public String getWorld() {
 		return world;
 	}
-	public void setWorld(String world) {
+	public int getWorldN(){
+		return worldN;
+	}
+	public void setWorld(String world, int n) {
 		this.world = world;
+		this.worldN = n;
 	}
 	public int getLevel() {
 		return level;
