@@ -84,7 +84,7 @@ public class LevelScene extends BaseScene {
             		game.setLevel(1);
             	}
             	else if(game.getWorldN()==2){
-            		game.setLevel(4);
+            		game.setLevel(3);
             		}
                 game.setScreen(new PlearningGameScene(game));
             }

@@ -112,6 +112,78 @@ public class DataSingleton {
 		ballsOut.get(level).add(new BallActor(game, Color.BLUE, BallActor.BallInOut.OUT, 0, 0));
 		ballsOut.get(level).add(new BallActor(game, Color.GREEN, BallActor.BallInOut.OUT, 1, 0));
 		ballsOut.get(level).add(new BallActor(game, Color.RED, BallActor.BallInOut.OUT, 2, 0));
+		
+		//Level 2 ----------------------
+		level = 2;
+		//Here we choose the controls
+		/* watch out here --> int nControls = 6; int level = 2*/
+		nControls[level] = 6;
+						
+		controls.get(level).add(new ControlActor(game, ControlActor.controlType.DESTRUCTOR, Color.YELLOW, 0));
+		controls.get(level).add(new ControlActor(game, ControlActor.controlType.IFLEFT, Color.RED, 1));
+		controls.get(level).add(new ControlActor(game, ControlActor.controlType.DESTRUCTOR, Color.RED, 2));
+		controls.get(level).add(new ControlActor(game, ControlActor.controlType.IFLEFT, Color.BLUE, 3));
+		controls.get(level).add(new ControlActor(game, ControlActor.controlType.CONVERTER, Color.BLUE, 4));
+		controls.get(level).add(new ControlActor(game, ControlActor.controlType.DIRCHANGER, Color.BLUE, 5));
+		
+		
+		//Here we choose the balls in and out
+		
+		
+			/*	Care with this ->
+			 * 		int nBallsIn = 4;
+			 * 		int nBallsOut = 3;
+			 * 
+			*/
+		timeBMax = 4 * 2 * 1000;
+		timeB = timeBMax;
+		ballsIn.add(new Array<BallActor>());
+		ballsIn.get(level).add(new BallActor(game, Color.GREEN, BallActor.BallInOut.IN, 0, timeBMax));
+		ballsIn.get(level).add(new BallActor(game, Color.RED, BallActor.BallInOut.IN, 1, timeBMax-2000));
+		ballsIn.get(level).add(new BallActor(game, Color.BLUE, BallActor.BallInOut.IN,2, timeBMax-4000));
+		ballsIn.get(level).add(new BallActor(game, Color.YELLOW, BallActor.BallInOut.IN, 3, timeBMax -6000));
+		
+		
+		ballsOut.add(new Array<BallActor>());
+		ballsOut.get(level).add(new BallActor(game, Color.GREEN, BallActor.BallInOut.OUT, 0, 0));
+		ballsOut.get(level).add(new BallActor(game, Color.BLUE, BallActor.BallInOut.OUT, 1, 0));
+		ballsOut.get(level).add(new BallActor(game, Color.RED, BallActor.BallInOut.OUT, 2, 0));
+		
+		//Level 2 ----------------------
+		level = 3;
+		//Here we choose the controls
+		/* watch out here --> int nControls = 6; int level = 2*/
+		nControls[level] = 6;
+						
+		controls.get(level).add(new ControlActor(game, ControlActor.controlType.DESTRUCTOR, Color.YELLOW, 0));
+		controls.get(level).add(new ControlActor(game, ControlActor.controlType.IFLEFT, Color.RED, 1));
+		controls.get(level).add(new ControlActor(game, ControlActor.controlType.DESTRUCTOR, Color.RED, 2));
+		controls.get(level).add(new ControlActor(game, ControlActor.controlType.IFLEFT, Color.BLUE, 3));
+		controls.get(level).add(new ControlActor(game, ControlActor.controlType.CONVERTER, Color.GREEN, 4));
+		controls.get(level).add(new ControlActor(game, ControlActor.controlType.DIRCHANGER, Color.BLUE, 5));
+		
+		
+		//Here we choose the balls in and out
+		
+		
+			/*	Care with this ->
+			 * 		int nBallsIn = 4;
+			 * 		int nBallsOut = 3;
+			 * 
+			*/
+		timeBMax = 4 * 2 * 1000;
+		timeB = timeBMax;
+		ballsIn.add(new Array<BallActor>());
+		ballsIn.get(level).add(new BallActor(game, Color.GREEN, BallActor.BallInOut.IN, 0, timeBMax));
+		ballsIn.get(level).add(new BallActor(game, Color.RED, BallActor.BallInOut.IN, 1, timeBMax-2000));
+		ballsIn.get(level).add(new BallActor(game, Color.BLUE, BallActor.BallInOut.IN,2, timeBMax-4000));
+		ballsIn.get(level).add(new BallActor(game, Color.YELLOW, BallActor.BallInOut.IN, 3, timeBMax -6000));
+		
+		
+		ballsOut.add(new Array<BallActor>());
+		ballsOut.get(level).add(new BallActor(game, Color.GREEN, BallActor.BallInOut.OUT, 0, 0));
+		ballsOut.get(level).add(new BallActor(game, Color.GREEN, BallActor.BallInOut.OUT, 1, 0));
+		ballsOut.get(level).add(new BallActor(game, Color.RED, BallActor.BallInOut.OUT, 2, 0));
 	}
 	public Array<ControlActor> getControls(int level){
 		return controls.get(level);
