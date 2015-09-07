@@ -27,6 +27,21 @@ public class PlearningGame extends Game {
 	public boolean soundEnabled;
 	public float soundVolume;
 	
+	private String world;
+	private int level;
+	
+	public String getWorld() {
+		return world;
+	}
+	public void setWorld(String world) {
+		this.world = world;
+	}
+	public int getLevel() {
+		return level;
+	}
+	public void setLevel(int level) {
+		this.level = level;
+	}
 	public PlearningGame(){
 		
 		fpsLogger = new FPSLogger();//prints fps in-game, only in dev

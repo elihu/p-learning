@@ -26,6 +26,7 @@ import com.badlogic.gdx.utils.TimeUtils;
 public class PlearningGameScene extends BaseScene {
 	AssetManager manager;
 	String world;
+	int level;
 	AtlasRegion background;
 	AtlasRegion door;
 	
@@ -97,10 +98,11 @@ public class PlearningGameScene extends BaseScene {
 	
 	
 	
-	public PlearningGameScene (PlearningGame plearning, String w) {
+	public PlearningGameScene (PlearningGame plearning) {
 		super(plearning);
 		game = plearning;
-		world = w;
+		world = game.getWorld();
+		level = game.getLevel();
 		/*Handle win and loose*/
 		skin = new Skin(Gdx.files.internal("UI/uiskin.json"));
 		win = false;
@@ -324,6 +326,7 @@ public class PlearningGameScene extends BaseScene {
 			
 			pause.setVisible(false);
 			speed.setVisible(false);
+			BallActor.restartVelocity();
 			gameState = GameState.CONTROLS;
 		}
 		else if(gameState == GameState.CONTROLS){
@@ -506,7 +509,7 @@ public class PlearningGameScene extends BaseScene {
 			stopMusic();
 		}
 		BallActor.restartVelocity();
-		game.setScreen(new PlearningGameScene(game, world));
+		game.setScreen(new PlearningGameScene(game));
 	}
 
 	@Override

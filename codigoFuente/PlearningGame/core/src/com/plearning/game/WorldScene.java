@@ -64,14 +64,16 @@ public class WorldScene extends BaseScene {
 		w1Button.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new LevelScene(game, "background-w1"));
+                game.setWorld("background-w1");
+            	game.setScreen(new LevelScene(game));
             }
         });
 		
 		w2Button.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new LevelScene(game, "background-w2"));
+            	game.setWorld("background-w2");
+                game.setScreen(new LevelScene(game));
             }
         });
 		
