@@ -19,10 +19,10 @@ public class BaseScene extends ScreenAdapter {
 		//For music
 		manager = game.manager;
 		
-		if(game.soundEnabled){
-			music = manager.get("SOUNDS/themeSong.mp3", Music.class);
-			music.setLooping(true);	
-		}
+		
+		music = manager.get("SOUNDS/themeSong.mp3", Music.class);
+		music.setLooping(true);	
+		
 		
 		Gdx.input.setCatchBackKey(true);
 		Gdx.input.setCatchMenuKey(true);
@@ -42,17 +42,24 @@ public class BaseScene extends ScreenAdapter {
 		}
 	}
 	
-	public static void playMusic(){
-		music.play();
+	public void playMusic(){
+		if(game.soundEnabled){
+			music.play();
+		}
 	}
 	
-	public static void stopMusic(){
-		music.stop();
+	public void stopMusic(){
+		if(game.soundEnabled){
+			music.stop();
+		}
 	}
 	
-	public static void changeMusic(Music m){
-		music = m;
-		music.setLooping(true);
+	public void changeMusic(Music m){
+		if(game.soundEnabled){
+			music = m;
+			music.setLooping(true);
+		}
+		
 	}
 	protected void handleBackPress(){
 		
