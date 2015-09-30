@@ -49,7 +49,7 @@ public class BaseScene extends ScreenAdapter {
 	}
 	
 	public void stopMusic(){
-		if(game.soundEnabled){
+		if(music!=null){
 			music.stop();
 		}
 	}

@@ -1,6 +1,7 @@
 package com.plearning.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -25,7 +26,10 @@ public class LevelScene extends BaseScene {
 	private TextButton backButton;
 	private TextButton level1Button;
 	private TextButton level2Button;
+	private TextButton level3Button;
 	private PlearningGame game;
+	
+	Sound tapSound;
 	
 	
 	public LevelScene(PlearningGame plearning) {
@@ -49,6 +53,9 @@ public class LevelScene extends BaseScene {
 		level2Button=new TextButton(" LEVEL 2 ", skin);
 		table.add(level2Button).padBottom(10).fill();
 		table.row();
+		level3Button=new TextButton(" LEVEL 3 ", skin);
+		table.add(level3Button).padBottom(10).fill();
+		table.row();
 		table.row();
 		
 		
@@ -67,11 +74,14 @@ public class LevelScene extends BaseScene {
 		level1Button.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+            	if(game.soundEnabled){
+    				tapSound.play();
+    			}
             	if(game.getWorldN() == 1){
             		game.setLevel(0);
             	}
             	else if(game.getWorldN()==2){
-            		game.setLevel(2);
+            		game.setLevel(1);
             		}
                 game.setScreen(new PlearningGameScene(game));
             }
@@ -80,8 +90,11 @@ public class LevelScene extends BaseScene {
 		level2Button.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+            	if(game.soundEnabled){
+    				tapSound.play();
+    			}
             	if(game.getWorldN() == 1){
-            		game.setLevel(1);
+            		game.setLevel(2);
             	}
             	else if(game.getWorldN()==2){
             		game.setLevel(3);
@@ -90,9 +103,28 @@ public class LevelScene extends BaseScene {
             }
         });
 		
+		level3Button.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+            	if(game.soundEnabled){
+    				tapSound.play();
+    			}
+            	if(game.getWorldN() == 1){
+            		game.setLevel(4);
+            	}
+            	else if(game.getWorldN()==2){
+            		game.setLevel(5);
+            		}
+                game.setScreen(new PlearningGameScene(game));
+            }
+        });
+		
 		backButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+            	if(game.soundEnabled){
+    				tapSound.play();
+    			}
             	game.setScreen(new WorldScene(game));
             }
         });
@@ -130,6 +162,10 @@ public class LevelScene extends BaseScene {
 		stage.act();
 		stage.draw();
 		
+		//Sound
+		if(game.soundEnabled){
+			tapSound = manager.get("SOUNDS/pop.ogg", Sound.class);			
+		}		
 		//Table.drawDebug(stage);
 		super.render(delta);
 	}

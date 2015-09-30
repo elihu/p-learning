@@ -177,6 +177,7 @@ public class MenuScene extends BaseScene {
 				if(game.soundEnabled){
 					tapSound.play();
 				}
+				
 				game.soundEnabled=!muteCheckBox.isChecked();
 			}
 		});

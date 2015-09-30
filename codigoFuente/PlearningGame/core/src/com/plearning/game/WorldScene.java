@@ -1,6 +1,7 @@
 package com.plearning.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -26,6 +27,8 @@ public class WorldScene extends BaseScene {
 	private TextButton w1Button;
 	private TextButton w2Button;
 	private PlearningGame game;
+	
+	Sound tapSound;
 	
 	public WorldScene(PlearningGame plearning) {
 		super(plearning);
@@ -64,6 +67,9 @@ public class WorldScene extends BaseScene {
 		w1Button.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+            	if(game.soundEnabled){
+    				tapSound.play();
+    			}
                 game.setWorld("background-w1", 1);
             	game.setScreen(new LevelScene(game));
             }
@@ -72,6 +78,9 @@ public class WorldScene extends BaseScene {
 		w2Button.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+            	if(game.soundEnabled){
+    				tapSound.play();
+    			}
             	game.setWorld("background-w2", 2);
                 game.setScreen(new LevelScene(game));
             }
@@ -113,6 +122,10 @@ public class WorldScene extends BaseScene {
 		// Clear the screen
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
+		//Sound
+		if(game.soundEnabled){
+			tapSound = manager.get("SOUNDS/pop.ogg", Sound.class);			
+		}		
 		// Show the loading screen
 		stage.act();
 		stage.draw();
