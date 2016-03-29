@@ -265,8 +265,9 @@ public class ControlActor extends Actor {
 				break;
 				
 			case DIRCHANGER:
-				if(ball.type == color){
+				if(!activated && ball.type == color){
 					ball.changeDir();
+					activated = true;
 				}
 				break;
 		}
